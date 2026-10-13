@@ -8,6 +8,11 @@
 <meta name="description" content="Dashboard pengurusan empat rumah ayam CAB">
 <title>CAB | Four House Fan Manager</title>
 
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ventilation monitoring">
+
 <style>
 :root{
 --bg:#f3f6f4;--white:#fff;--ink:#172820;--muted:#77857c;
@@ -795,5 +800,17 @@ function exportCSV(){
 
 renderAll();
 </script>
+ 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(error => console.error(
+        "Service worker gagal didaftarkan:", error
+      ));
+  });
+}
+</script>
+
 </body>
 </html>
