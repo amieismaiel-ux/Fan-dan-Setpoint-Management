@@ -5,17 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10251e">
-<meta name="description" content="Dashboard pengurusan 4 rumah ayam CAB">
+<meta name="description" content="Dashboard pengurusan empat rumah ayam CAB">
 <title>CAB | Four House Fan Manager</title>
+
 <style>
 :root{
 --bg:#f3f6f4;--white:#fff;--ink:#172820;--muted:#77857c;
---green:#176b4b;--bright:#239565;--line:#e3eae5;--dark:#10251e;
---orange:#fff1d9;--blue:#eaf1ff
+--green:#176b4b;--bright:#239565;--line:#e3eae5;
+--dark:#10251e;--orange:#fff1d9
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-button,input,select,textarea{font:inherit}
+button,input,select{font:inherit}
 button{cursor:pointer}
 .app{max-width:1400px;margin:auto;padding:16px}
 .hero{background:linear-gradient(130deg,#10251e,#176b4b);color:white;padding:25px;border-radius:24px;position:relative;overflow:hidden}
@@ -24,12 +25,11 @@ button{cursor:pointer}
 .logo{display:grid;place-items:center;width:50px;height:50px;border-radius:15px;background:#ffffff1c;border:1px solid #ffffff35;font-size:22px;font-weight:900}
 .brand small{letter-spacing:2px;color:#c1dfce;font-size:10px}
 h1{font-size:21px;margin:6px 0}
-.hero p{font-size:13px;line-height:1.6;color:#d5e6dc}
+.hero p{font-size:13px;line-height:1.7;color:#d5e6dc}
 .actions{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
 .btn{border:1px solid var(--line);border-radius:10px;background:white;padding:11px 14px;font-size:12px;font-weight:700;color:var(--ink)}
 .btn.primary{background:var(--bright);color:white;border-color:var(--bright)}
 .btn.dark{background:#ffffff18;color:white;border-color:#ffffff45}
-.btn:active,.house-btn:active{transform:scale(.98)}
 .house-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:17px 0}
 .house-btn{border:1px solid var(--line);background:white;border-radius:15px;padding:15px 12px;text-align:left;color:var(--ink);min-width:0}
 .house-btn.active{background:#e5f4e9;border:2px solid var(--green);padding:14px 11px}
@@ -39,13 +39,30 @@ h1{font-size:21px;margin:6px 0}
 .panel{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;min-width:0}
 .panel-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px}
 .panel-head h2{font-size:17px;margin:0 0 5px}
-.panel-head p{font-size:12px;color:var(--muted);margin:0;line-height:1.5}
+.panel-head p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
 .fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field label{font-size:11px;font-weight:700;color:#627368}
-input,select,textarea{width:100%;min-width:0;padding:12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}
+input,select{width:100%;min-width:0;padding:12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}
 .hint{font-size:11px;line-height:1.7;color:var(--muted);margin-top:12px}
-.preview{margin-top:12px;color:var(--green);font-size:12px;font-weight:700;line-height:1.6}
+.preview{margin-top:12px;color:var(--green);font-size:12px;font-weight:700;line-height:1.7}
+
+/* PAPARAN UMUR AYAM DI BAWAH TARIKH DOC */
+.age-display{
+ margin-top:10px;padding:15px;
+ background:linear-gradient(135deg,#e8f6ed,#f5fbf6);
+ border:1px solid #d5eadb;border-radius:13px;
+}
+.age-display label{
+ display:block;font-size:10px;font-weight:800;
+ color:#627368;letter-spacing:.5px
+}
+.age-display strong{
+ display:block;margin:7px 0;font-size:25px;color:#176b4b;
+ overflow-wrap:anywhere
+}
+.age-display span{font-size:11px;color:#627368;line-height:1.7}
+
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:16px}
 .stat{background:white;border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}
 .stat label{font-size:10px;font-weight:700;color:var(--muted)}
@@ -73,7 +90,7 @@ tbody tr:hover{background:#f8fbf8}
 .note{background:#fff7e8;border:1px solid #f1dfb9;border-radius:12px;padding:13px;color:#79520f;font-size:11px;line-height:1.7;margin:12px 0}
 .hidden{display:none!important}
 .house-dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.dash-card{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;min-width:0;transition:border-color .2s}
+.dash-card{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;min-width:0}
 .dash-card.selected{border:2px solid var(--green);padding:16px;background:#fcfffc}
 .dash-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .dash-top h3{margin:0 0 5px;font-size:15px;overflow-wrap:anywhere}
@@ -81,44 +98,44 @@ tbody tr:hover{background:#f8fbf8}
 .house-icon{display:grid;place-items:center;width:42px;height:42px;background:#e7f5eb;border-radius:12px;font-size:21px;flex-shrink:0}
 .age-box{background:#f3f7f4;border-radius:12px;padding:12px;margin:14px 0}
 .age-box small{font-size:10px;color:var(--muted);font-weight:700}
-.age-box strong{display:block;font-size:24px;color:var(--green);margin:5px 0}
-.age-box span{font-size:11px;color:var(--muted)}
+.age-box strong{display:block;font-size:24px;color:var(--green);margin:5px 0;overflow-wrap:anywhere}
+.age-box span{font-size:11px;color:var(--muted);line-height:1.6}
 .dash-metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .metric{border:1px solid var(--line);border-radius:10px;padding:10px;min-width:0}
 .metric small{display:block;font-size:9px;color:var(--muted);font-weight:700;margin-bottom:7px}
 .metric strong{display:block;font-size:13px;overflow-wrap:anywhere;line-height:1.5}
 .dash-card .btn{width:100%;margin-top:13px}
-.dash-card .btn.secondary{background:#f2f7f3;border-color:#d9e9de;color:var(--green)}
-.empty-state{padding:15px;border-radius:12px;background:#f6f8f6;color:var(--muted);font-size:11px;line-height:1.7}
+.btn.secondary{background:#f2f7f3;border-color:#d9e9de;color:var(--green)}
 footer{font-size:10px;color:var(--muted);padding:15px 3px;line-height:1.7}
 @media(max-width:760px){
-.app{padding:11px}.hero{padding:19px}.brand h1{font-size:18px}
-.house-picker{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.house-btn{padding:12px}.house-btn.active{padding:11px}
-.fields{grid-template-columns:1fr}
-.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.stat{padding:12px}.stat strong{font-size:22px}
-.panel{padding:13px}.grid2{grid-template-columns:1fr}
-.house-dashboard{grid-template-columns:1fr}
-.dash-card{padding:14px}
-.dash-card.selected{padding:13px}
+ .app{padding:11px}.hero{padding:19px}.brand h1{font-size:18px}
+ .house-picker{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .house-btn{padding:12px}.house-btn.active{padding:11px}
+ .fields{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .stat{padding:12px}.stat strong{font-size:22px}
+ .panel{padding:13px}.grid2,.house-dashboard{grid-template-columns:1fr}
+ .dash-card{padding:14px}.dash-card.selected{padding:13px}
 }
 @media print{
-.actions,.house-picker,.tabs,.searchrow,.btn,.mini{display:none!important}
-body{background:white}.app{padding:0}.panel{break-inside:avoid}
-.tablewrap{overflow:visible}table{min-width:0;font-size:8px}
-th,td{padding:5px 3px}
+ .actions,.house-picker,.tabs,.searchrow,.btn,.mini{display:none!important}
+ body{background:white}.app{padding:0}.panel,.dash-card{break-inside:avoid}
+ .tablewrap{overflow:visible}table{min-width:0;font-size:8px}
+ th,td{padding:5px 3px}
 }
 </style>
 </head>
+
 <body>
 <div class="app">
 
 <header class="hero">
  <div class="brand">
   <div class="logo">CAB</div>
-  <div><small>BREEDING FARM MANAGEMENT</small>
-   <h1>FAN & SET POINT MANAGER</h1></div>
+  <div>
+   <small>BREEDING FARM MANAGEMENT</small>
+   <h1>FAN & SET POINT MANAGER</h1>
+  </div>
  </div>
  <p>Dashboard perbandingan 4 rumah ayam. Semak umur, suhu sasaran, cooling pad dan Fan Stage dalam satu paparan.</p>
  <div class="actions">
@@ -131,40 +148,57 @@ th,td{padding:5px 3px}
 
 <section class="house-picker" id="housePicker"></section>
 
-<!-- DASHBOARD PERBANDINGAN 4 RUMAH -->
 <section class="panel" id="dashboard">
  <div class="panel-head">
-  <div><h2>📊 Dashboard 4 Rumah</h2>
-   <p>Perbandingan automatik berdasarkan tarikh DOC dan rekod setiap rumah.</p></div>
+  <div>
+   <h2>📊 Dashboard 4 Rumah</h2>
+   <p>Perbandingan umur dan tetapan setiap rumah.</p>
+  </div>
   <span class="pill">4 RUMAH</span>
  </div>
  <div class="house-dashboard" id="dashboardCards"></div>
- <div class="hint">Umur dikira daripada tarikh DOC yang disimpan. Set Point, cooling pad dan Fan Stage merujuk jadual bagi minggu semasa. Paparan ini ialah rujukan sahaja, bukan bacaan langsung controller.</div>
+ <div class="hint">Umur dikira berdasarkan tarikh DOC dan tarikh semasa. Nilai kipas ialah rujukan jadual, bukan bacaan langsung controller.</div>
 </section>
 
 <section class="panel" id="houseSettings">
  <div class="panel-head">
-  <div><h2 id="houseHeading">Rumah 1</h2>
-   <p>Tetapan musim dan jadual khusus rumah yang dipilih.</p></div>
+  <div>
+   <h2 id="houseHeading">Rumah 1</h2>
+   <p>Tetapan musim dan jadual khusus rumah yang dipilih.</p>
+  </div>
   <span class="pill" id="houseBadge">RUMAH 1</span>
  </div>
+
  <div class="fields">
-  <div class="field"><label>Nama Rumah</label>
-   <input id="houseName" placeholder="Contoh: Gurun Farm 1"></div>
-  <div class="field"><label>Tarikh DOC Masuk</label>
-   <input type="date" id="docDate"></div>
-  <div class="field"><label>Kaedah Pengiraan</label>
+  <div class="field">
+   <label>Nama Rumah</label>
+   <input id="houseName" placeholder="Contoh: Gurun Farm 1">
+  </div>
+  <div class="field">
+   <label>Tarikh DOC Masuk</label>
+   <input type="date" id="docDate">
+   
+   <!-- UMUR AYAM AUTOMATIK DI BAWAH TARIKH DOC -->
+   <div class="age-display">
+    <label>🐣 UMUR AYAM SEKARANG</label>
+    <strong id="currentAge">Belum ditetapkan</strong>
+    <span id="currentAgeDetail">Masukkan tarikh DOC untuk mengira umur ayam.</span>
+   </div>
+  </div>
+  <div class="field">
+   <label>Kaedah Pengiraan</label>
    <select id="weekMode">
     <option value="flock">Setiap 7 hari dari DOC</option>
     <option value="calendar">Minggu kalendar Ahad–Sabtu</option>
    </select>
   </div>
  </div>
+
  <div class="actions" style="margin-top:13px">
   <button class="btn primary" onclick="saveHouseSettings()">Simpan Tetapan Rumah</button>
  </div>
  <div class="preview" id="datePreview"></div>
- <div class="hint">Perubahan tarikh DOC mengubah tarikh paparan mingguan. Tetapan kipas dan suhu tidak berubah secara automatik.</div>
+ <div class="hint">Setiap rumah mempunyai tarikh DOC sendiri. Menukar tarikh DOC tidak mengubah jadual kipas atau suhu. Pastikan tarikh yang betul sebelum menyimpan.</div>
 </section>
 
 <section class="stats">
@@ -182,8 +216,7 @@ th,td{padding:5px 3px}
 
 <section class="panel" id="page-table">
  <div class="panel-head">
-  <div><h2>Jadual Fan & Set Point</h2>
-   <p id="tableSubtitle">Week 1–32</p></div>
+  <div><h2>Jadual Fan & Set Point</h2><p id="tableSubtitle">Week 1–32</p></div>
   <span class="pill">WEEK 1–32</span>
  </div>
  <div class="searchrow">
@@ -196,18 +229,21 @@ th,td{padding:5px 3px}
    <option>23</option><option>22</option>
   </select>
  </div>
- <div class="tablewrap"><table>
-  <thead><tr><th>Minggu / Tarikh</th><th>Hari</th><th>Set Point</th>
-   <th>Fan Manual</th><th>Fan Auto</th><th>Cooling Pad</th>
-   <th>Alarm</th><th>Nota</th><th>Edit</th></tr></thead>
-  <tbody id="tableBody"></tbody>
- </table></div>
+ <div class="tablewrap">
+  <table>
+   <thead><tr>
+    <th>Minggu / Tarikh</th><th>Hari</th><th>Set Point</th>
+    <th>Fan Manual</th><th>Fan Auto</th><th>Cooling Pad</th>
+    <th>Alarm</th><th>Nota</th><th>Edit</th>
+   </tr></thead>
+   <tbody id="tableBody"></tbody>
+  </table>
+ </div>
 </section>
 
 <section class="panel hidden" id="page-stages">
  <div class="panel-head">
-  <div><h2 id="stageHeading">Fan Stage — Rumah 1</h2>
-   <p>Setiap rumah mempunyai pemetaan kipas sendiri.</p></div>
+  <div><h2 id="stageHeading">Fan Stage — Rumah 1</h2><p>Setiap rumah mempunyai pemetaan kipas sendiri.</p></div>
   <button class="btn primary" onclick="editStages()">Edit Fan Stage</button>
  </div>
  <div class="note">Nombor stage ialah rujukan konfigurasi. Ia tidak menunjukkan status kipas secara langsung. Semak controller untuk mengetahui kipas yang sedang berjalan.</div>
@@ -216,20 +252,22 @@ th,td{padding:5px 3px}
 </section>
 
 <section class="panel hidden" id="page-notes">
- <div class="panel-head"><div><h2>Nota & Panduan</h2>
- <p>Penggunaan sistem empat rumah.</p></div></div>
+ <div class="panel-head"><div><h2>Nota & Panduan</h2><p>Penggunaan sistem empat rumah.</p></div></div>
  <div class="grid2">
   <div class="stagecard"><strong>📅 Tarikh DOC</strong><span>Berasingan</span></div>
   <div class="stagecard"><strong>🌡️ Set Point</strong><span>Berasingan</span></div>
   <div class="stagecard"><strong>🌀 Fan Stage</strong><span>Boleh diedit</span></div>
   <div class="stagecard"><strong>💾 Simpanan</strong><span>Peranti ini</span></div>
  </div>
- <div class="note">Data disimpan dalam pelayar peranti ini. GitHub Pages tidak menyegerakkan data antara telefon dan komputer. Buat eksport CSV sebagai salinan sandaran.</div>
+ <div class="note">Data disimpan dalam pelayar peranti ini dan tidak disegerakkan secara automatik dengan telefon atau komputer lain. Eksport CSV sebagai sandaran.</div>
 </section>
 
-<footer>CAB GROUP · FAN AND SET POINT SETTING · Sistem rujukan empat rumah.<br>
-Pastikan nilai operasi disahkan dengan SOP ladang dan controller sebenar.</footer>
+<footer>
+ CAB GROUP · FAN AND SET POINT SETTING · Sistem rujukan empat rumah.<br>
+ Pastikan nilai operasi disahkan dengan SOP ladang dan controller sebenar.
+</footer>
 </div>
+
 <div id="modalRoot"></div>
 
 <script>
@@ -284,120 +322,208 @@ const defaultStages=[
 ];
 
 function makeRows(){
- return template.map(r=>({w:r[0],day:r[1],set:r[2],manual:r[3],auto:r[4],pad:r[5],alarm:r[6],note:r[7]}));
+ return template.map(r=>({
+  w:r[0],day:r[1],set:r[2],manual:r[3],
+  auto:r[4],pad:r[5],alarm:r[6],note:r[7]
+ }));
 }
+
 function makeHouse(i){
- return {name:"Rumah "+i,docDate:"",mode:"flock",rows:makeRows(),
- stages:JSON.parse(JSON.stringify(defaultStages)),manualFans:"FAN 2 dan 10"};
+ return {
+  name:"Rumah "+i,
+  docDate:"",
+  mode:"flock",
+  rows:makeRows(),
+  stages:JSON.parse(JSON.stringify(defaultStages)),
+  manualFans:"FAN 2 dan 10"
+ };
 }
+
 function initialHouses(){
  const hs=[1,2,3,4].map(makeHouse);
  try{
   const old=JSON.parse(localStorage.getItem(OLD_DATA_KEY)||"null");
   if(Array.isArray(old)&&old.length){
-   hs[0].rows=old.map(r=>({w:r.w,day:r.day||"—",set:r.set,
-    manual:r.manual||"—",auto:r.auto||"—",pad:r.pad||"—",
-    alarm:r.alarm||"—",note:r.note||""}));
+   hs[0].rows=old.map(r=>({
+    w:r.w,day:r.day||"—",set:r.set,
+    manual:r.manual||"—",auto:r.auto||"—",
+    pad:r.pad||"—",alarm:r.alarm||"—",note:r.note||""
+   }));
   }
-  hs[0].docDate=localStorage.getItem(OLD_DATE_KEY)||"2025-07-12";
+  hs[0].docDate=localStorage.getItem(OLD_DATE_KEY)||"";
   hs[0].mode=localStorage.getItem(OLD_MODE_KEY)||"flock";
  }catch(e){}
  return hs;
 }
+
 function loadHouses(){
  try{
   const saved=JSON.parse(localStorage.getItem(DATA_KEY)||"null");
-  if(Array.isArray(saved)&&saved.length===4)return saved;
+  if(Array.isArray(saved)&&saved.length===4){
+   saved.forEach((h,i)=>{
+    if(!Array.isArray(h.rows))h.rows=makeRows();
+    if(!Array.isArray(h.stages))h.stages=JSON.parse(JSON.stringify(defaultStages));
+    if(!h.name)h.name="Rumah "+(i+1);
+    if(!h.mode)h.mode="flock";
+    if(typeof h.manualFans!=="string")h.manualFans="FAN 2 dan 10";
+   });
+   return saved;
+  }
  }catch(e){}
  const fresh=initialHouses();
  try{localStorage.setItem(DATA_KEY,JSON.stringify(fresh))}catch(e){}
  return fresh;
 }
-let houses=loadHouses(),selected=0;
+
+let houses=loadHouses();
+let selected=0;
 
 function saveAll(){
- try{localStorage.setItem(DATA_KEY,JSON.stringify(houses))}
- catch(e){alert("Data tidak dapat disimpan. Eksport CSV sebagai sandaran.")}
+ try{
+  localStorage.setItem(DATA_KEY,JSON.stringify(houses));
+  return true;
+ }catch(e){
+  alert("Data tidak dapat disimpan. Eksport CSV sebagai sandaran.");
+  return false;
+ }
 }
+
 function house(){return houses[selected]}
+
 function esc(v){
- return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ return String(v??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
+
 function parseDate(s){
  if(!s)return null;
  const a=s.split("-").map(Number);
  if(a.length!==3||a.some(Number.isNaN))return null;
  const d=new Date(a[0],a[1]-1,a[2],12);
- return Number.isNaN(d.getTime())?null:d;
+ if(d.getFullYear()!==a[0]||d.getMonth()!==a[1]-1||d.getDate()!==a[2])return null;
+ return d;
 }
+
 function fmt(d){
- return d?d.toLocaleDateString("ms-MY",{day:"2-digit",month:"short",year:"numeric"}):"Belum ditetapkan";
+ return d?d.toLocaleDateString("ms-MY",{
+  day:"2-digit",month:"short",year:"numeric"
+ }):"Belum ditetapkan";
 }
+
+/* PENGIRAAN UMUR AYAM */
 function ageInfo(h){
  const start=parseDate(h.docDate);
- if(!start)return {valid:false,text:"DOC belum ditetapkan",week:null,day:null};
+
+ if(!start){
+  return {valid:false,text:"DOC belum ditetapkan",week:null,day:null};
+ }
+
  const now=new Date();
  now.setHours(12,0,0,0);
- const days=Math.floor((now-start)/(24*60*60*1000));
- if(days<0)return {valid:false,text:"DOC belum tiba",week:0,day:days};
- return {valid:true,week:Math.floor(days/7)+1,day:days};
+
+ const days=Math.floor((now.getTime()-start.getTime())/86400000);
+
+ if(days<0){
+  return {valid:false,text:"DOC belum tiba",week:0,day:days};
+ }
+
+ return {
+  valid:true,
+  week:Math.floor(days/7)+1,
+  day:days,
+  dayInWeek:days%7,
+  totalDays:days
+ };
 }
+
 function weekDateFor(h,w){
  const start=parseDate(h.docDate);
  if(!start)return null;
+
  let offset=(w-1)*7;
- if(h.mode==="calendar")offset+=((7-start.getDay())%7);
+ if(h.mode==="calendar")offset+=(7-start.getDay())%7;
+
  const d=new Date(start);
  d.setDate(d.getDate()+offset);
  return d;
 }
-function fmtDayRange(info){
- if(!info.valid)return info.text;
- return "Hari ke-"+info.day+" sejak DOC";
-}
+
 function rowForWeek(h,w){
  if(!w)return null;
  return h.rows.find(r=>r.w===Math.min(w,32))||null;
 }
+
 function currentFanSummary(h,w){
  const r=rowForWeek(h,w);
  if(!r)return "Belum ditetapkan";
- const manual=r.manual&&r.manual!=="—"?r.manual:"Tiada";
- const auto=r.auto&&r.auto!=="—"?r.auto:"Tiada";
- return "Manual: "+manual+" · Auto: "+auto;
+ return "Manual: "+(r.manual||"—")+" · Auto: "+(r.auto||"—");
 }
+
+/* KEMAS KINI UMUR DI BAWAH TARIKH DOC */
+function renderCurrentAge(){
+ const h=house();
+ const age=ageInfo(h);
+ const ageElement=document.getElementById("currentAge");
+ const detailElement=document.getElementById("currentAgeDetail");
+
+ if(!age.valid){
+  ageElement.textContent=age.text;
+  detailElement.textContent=age.text==="DOC belum tiba"
+   ?"Tarikh DOC berada pada masa hadapan."
+   :"Masukkan tarikh DOC untuk mengira umur ayam.";
+  return;
+ }
+
+ const weeks=Math.floor(age.totalDays/7);
+ const days=age.totalDays%7;
+
+ ageElement.textContent=weeks+" minggu "+days+" hari";
+ detailElement.textContent=
+  "Hari ke-"+age.totalDays+" sejak DOC masuk · Minggu rekod: "+age.week;
+}
+
 function renderHouses(){
  document.getElementById("housePicker").innerHTML=houses.map((h,i)=>{
   const age=ageInfo(h);
   return `<button class="house-btn ${i===selected?"active":""}" onclick="selectHouse(${i})">
-  <strong>🏠 ${esc(h.name)}</strong>
-  <span>${h.docDate?"DOC: "+esc(fmt(parseDate(h.docDate))):"Tarikh DOC belum ditetapkan"}<br>
-  ${age.valid?"Umur: Minggu "+age.week:"Umur belum tersedia"}</span></button>`;
+   <strong>🏠 ${esc(h.name)}</strong>
+   <span>${h.docDate?"DOC: "+esc(fmt(parseDate(h.docDate))):"Tarikh DOC belum ditetapkan"}<br>
+   ${age.valid?"Umur: Minggu "+age.week:"Umur belum tersedia"}</span>
+  </button>`;
  }).join("");
 }
+
 function selectHouse(i){
- selected=i;renderAll();
+ selected=i;
+ renderAll();
 }
+
 function renderDashboard(){
  document.getElementById("dashboardCards").innerHTML=houses.map((h,i)=>{
   const age=ageInfo(h);
   const row=age.valid?rowForWeek(h,age.week):null;
-  const stageCount=h.stages?.length||0;
-  let ageText=age.valid?(age.week>32?"Minggu "+age.week+" (melebihi jadual)":"Minggu "+age.week):age.text;
+  const ageText=age.valid
+   ?Math.floor(age.totalDays/7)+" minggu "+(age.totalDays%7)+" hari"
+   :age.text;
+
   const set=row?row.set+"°C":"—";
   const pad=row?row.pad:"—";
   const manual=row?row.manual:"—";
   const auto=row?row.auto:"—";
-  const fanText=age.valid?`Manual: ${manual}<br>Auto: ${auto}`:"Tetapkan tarikh DOC dahulu";
+
   return `<article class="dash-card ${i===selected?"selected":""}">
    <div class="dash-top">
-    <div><h3>${esc(h.name)}</h3>
-    <p>${h.docDate?"DOC: "+esc(fmt(parseDate(h.docDate))):"Tarikh DOC belum diisi"}</p></div>
+    <div>
+     <h3>${esc(h.name)}</h3>
+     <p>${h.docDate?"DOC: "+esc(fmt(parseDate(h.docDate))):"Tarikh DOC belum diisi"}</p>
+    </div>
     <div class="house-icon">🏠</div>
    </div>
-   <div class="age-box"><small>UMUR AYAM SEKARANG</small>
+   <div class="age-box">
+    <small>UMUR AYAM SEKARANG</small>
     <strong>${esc(ageText)}</strong>
-    <span>${age.valid?esc(fmtDayRange(age)):"Masukkan tarikh DOC untuk kira umur"}</span>
+    <span>${age.valid?"Minggu rekod: "+age.week+" · Hari ke-"+age.totalDays:"Masukkan tarikh DOC untuk kira umur"}</span>
    </div>
    <div class="dash-metrics">
     <div class="metric"><small>SET POINT</small><strong>${esc(set)}</strong></div>
@@ -405,15 +531,18 @@ function renderDashboard(){
     <div class="metric"><small>FAN MANUAL</small><strong>${esc(age.valid?manual:"—")}</strong></div>
     <div class="metric"><small>FAN AUTO</small><strong>${esc(age.valid?auto:"—")}</strong></div>
    </div>
-   <div class="hint"><b>Fan Stage:</b> ${stageCount} rekod konfigurasi</div>
+   <div class="hint"><b>Fan Stage:</b> ${h.stages.length} rekod konfigurasi</div>
    <button class="btn ${i===selected?"primary":"secondary"}" onclick="openHouse(${i})">${i===selected?"Rumah Dipilih ✓":"Buka Rumah →"}</button>
   </article>`;
  }).join("");
 }
+
 function openHouse(i){
- selected=i;renderAll();
+ selected=i;
+ renderAll();
  document.getElementById("houseSettings").scrollIntoView({behavior:"smooth",block:"start"});
 }
+
 function renderSettings(){
  const h=house();
  document.getElementById("houseHeading").textContent=h.name;
@@ -421,128 +550,249 @@ function renderSettings(){
  document.getElementById("houseName").value=h.name;
  document.getElementById("docDate").value=h.docDate||"";
  document.getElementById("weekMode").value=h.mode||"flock";
- document.getElementById("datePreview").textContent=h.docDate?
-  "Week 1: "+fmt(weekDateFor(h,1))+" • Week 2: "+fmt(weekDateFor(h,2))+" • Week 32: "+fmt(weekDateFor(h,32)):
-  "Belum ada tarikh DOC. Masukkan tarikh untuk mengaktifkan kalendar rumah ini.";
- document.getElementById("tableSubtitle").textContent=h.docDate?
-  "Tarikh dikira daripada DOC "+fmt(parseDate(h.docDate)):
-  "Sila tetapkan tarikh DOC untuk "+h.name+".";
+
+ document.getElementById("datePreview").textContent=h.docDate
+  ?"Week 1: "+fmt(weekDateFor(h,1))+
+   " • Week 2: "+fmt(weekDateFor(h,2))+
+   " • Week 32: "+fmt(weekDateFor(h,32))
+  :"Belum ada tarikh DOC. Masukkan tarikh untuk mengaktifkan kalendar rumah ini.";
+
+ document.getElementById("tableSubtitle").textContent=h.docDate
+  ?"Tarikh dikira daripada DOC "+fmt(parseDate(h.docDate))
+  :"Sila tetapkan tarikh DOC untuk "+h.name+".";
+
+ renderCurrentAge();
 }
+
 function saveHouseSettings(){
  const h=house();
  const name=document.getElementById("houseName").value.trim();
  const date=document.getElementById("docDate").value;
  const mode=document.getElementById("weekMode").value;
+
  if(!name)return alert("Sila masukkan nama rumah.");
  if(date&&!parseDate(date))return alert("Tarikh DOC tidak sah.");
- h.name=name;h.docDate=date;h.mode=mode;
- saveAll();renderAll();
- alert("Tetapan "+h.name+" berjaya disimpan.");
+
+ h.name=name;
+ h.docDate=date;
+ h.mode=mode;
+
+ if(saveAll()){
+  renderAll();
+  alert("Tetapan "+h.name+" berjaya disimpan.");
+ }
 }
+
 function renderStats(){
- const h=house(),age=ageInfo(h),row=age.valid?rowForWeek(h,age.week):null;
+ const h=house();
+ const age=ageInfo(h);
+ const row=age.valid?rowForWeek(h,age.week):null;
+
  document.getElementById("statWeek").textContent=age.valid?"W"+age.week:"—";
  document.getElementById("statSet").textContent=row?row.set+"°C":"—";
  document.getElementById("statPad").textContent=row?row.pad:"—";
- document.getElementById("statAlarm").textContent=h.rows.filter(r=>r.alarm&&r.alarm!=="—").length;
+ document.getElementById("statAlarm").textContent=
+  h.rows.filter(r=>r.alarm&&r.alarm!=="—").length;
 }
+
 function renderTable(){
- const h=house(),q=document.getElementById("search").value.toLowerCase().trim();
+ const h=house();
+ const q=document.getElementById("search").value.toLowerCase().trim();
  const fs=document.getElementById("filterSet").value;
+
  const filtered=h.rows.filter(r=>{
-  const str=[r.w,fmt(weekDateFor(h,r.w)),r.day,r.set,r.manual,r.auto,r.pad,r.alarm,r.note].join(" ").toLowerCase();
+  const str=[
+   r.w,fmt(weekDateFor(h,r.w)),r.day,r.set,r.manual,
+   r.auto,r.pad,r.alarm,r.note
+  ].join(" ").toLowerCase();
   return str.includes(q)&&(!fs||String(r.set)===fs);
  });
- document.getElementById("tableBody").innerHTML=filtered.length?filtered.map(r=>`
- <tr><td><b style="color:var(--green)">W${r.w}</b><br><small>${esc(fmt(weekDateFor(h,r.w)))}</small></td>
- <td>${esc(r.day)}</td><td><span class="pill">${esc(r.set)}°C</span></td>
- <td>${esc(r.manual)}</td><td>${esc(r.auto)}</td><td>${esc(r.pad)}</td>
- <td>${r.alarm==="—"?"—":`<span class="pill warn">${esc(r.alarm)}</span>`}</td>
- <td>${esc(r.note||"—")}</td><td><button class="mini" onclick="editWeek(${r.w})">Edit</button></td></tr>`).join("")
+
+ document.getElementById("tableBody").innerHTML=filtered.length
+ ?filtered.map(r=>`
+  <tr>
+   <td><b style="color:var(--green)">W${r.w}</b><br><small>${esc(fmt(weekDateFor(h,r.w)))}</small></td>
+   <td>${esc(r.day)}</td>
+   <td><span class="pill">${esc(r.set)}°C</span></td>
+   <td>${esc(r.manual)}</td><td>${esc(r.auto)}</td><td>${esc(r.pad)}</td>
+   <td>${r.alarm==="—"?"—":`<span class="pill warn">${esc(r.alarm)}</span>`}</td>
+   <td>${esc(r.note||"—")}</td>
+   <td><button class="mini" onclick="editWeek(${r.w})">Edit</button></td>
+  </tr>`).join("")
  :`<tr><td colspan="9" style="padding:25px;text-align:center">Tiada rekod ditemui.</td></tr>`;
 }
+
 function renderStages(){
  const h=house();
  document.getElementById("stageHeading").textContent="Fan Stage — "+h.name;
  document.getElementById("stageList").innerHTML=h.stages.map((s,i)=>`
- <div class="stagecard"><strong>${esc(s.name||"STAGE "+(i+1))}</strong>
- <span>${esc(s.fans||"Belum ditetapkan")}</span></div>`).join("");
- document.getElementById("manualStageNote").textContent="Rujukan kipas manual: "+(h.manualFans||"Belum ditetapkan")+".";
+  <div class="stagecard">
+   <strong>${esc(s.name||"STAGE "+(i+1))}</strong>
+   <span>${esc(s.fans||"Belum ditetapkan")}</span>
+  </div>`).join("");
+
+ document.getElementById("manualStageNote").textContent=
+  "Rujukan kipas manual: "+(h.manualFans||"Belum ditetapkan")+".";
 }
+
 function renderAll(){
- renderHouses();renderDashboard();renderSettings();renderStats();renderTable();renderStages();
+ renderHouses();
+ renderDashboard();
+ renderSettings();
+ renderStats();
+ renderTable();
+ renderStages();
 }
+
 function showTab(tab){
- ["table","stages","notes"].forEach(p=>document.getElementById("page-"+p).classList.toggle("hidden",p!==tab));
- document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+ ["table","stages","notes"].forEach(p=>{
+  document.getElementById("page-"+p).classList.toggle("hidden",p!==tab);
+ });
+ document.querySelectorAll("[data-tab]").forEach(b=>{
+  b.classList.toggle("active",b.dataset.tab===tab);
+ });
 }
-document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+
+document.querySelectorAll("[data-tab]").forEach(b=>{
+ b.addEventListener("click",()=>showTab(b.dataset.tab));
+});
+
+/* UMUR DIKEMAS KINI SERTA-MERTA APABILA TARIKH DITUKAR */
+document.getElementById("docDate").addEventListener("change",function(){
+ const original=house().docDate;
+ house().docDate=this.value;
+ renderCurrentAge();
+ house().docDate=original;
+});
 
 function editWeek(w){
- const h=house(),r=w?h.rows.find(x=>x.w===w):{w:1,day:"—",set:28,manual:"—",auto:"—",pad:"—",alarm:"—",note:""};
+ const h=house();
+ const r=w?h.rows.find(x=>x.w===w):{
+  w:1,day:"—",set:28,manual:"—",auto:"—",pad:"—",alarm:"—",note:""
+ };
+
  document.getElementById("modalRoot").innerHTML=`
  <div style="position:fixed;inset:0;background:#07140fc9;z-index:10;display:grid;place-items:center;padding:12px">
- <div style="background:white;border-radius:18px;padding:20px;width:100%;max-width:560px;max-height:90vh;overflow:auto">
- <h2 style="font-size:18px">Edit ${esc(h.name)} — Week ${w||"baharu"}</h2>
- <p style="font-size:12px;color:#77857c">Tarikh minggu: ${esc(fmt(weekDateFor(h,r.w)))}</p>
- <form id="weekForm" onsubmit="saveWeek(event)">
- <div class="fields" style="grid-template-columns:repeat(2,minmax(0,1fr))">
- <div class="field"><label>Minggu (1–32)</label><input name="w" type="number" min="1" max="32" required value="${r.w}" ${w?"readonly":""}></div>
- <div class="field"><label>Hari / Julat Hari</label><input name="day" value="${esc(r.day)}"></div>
- <div class="field"><label>Set Point °C</label><input name="set" type="number" step=".5" required value="${esc(r.set)}"></div>
- <div class="field"><label>Fan Manual</label><input name="manual" value="${esc(r.manual)}"></div>
- <div class="field"><label>Fan Auto</label><input name="auto" value="${esc(r.auto)}"></div>
- <div class="field"><label>Cooling Pad</label><input name="pad" value="${esc(r.pad)}"></div>
- <div class="field"><label>Alarm</label><input name="alarm" value="${esc(r.alarm)}"></div>
- <div class="field"><label>Nota</label><input name="note" value="${esc(r.note)}"></div>
- </div><div class="actions" style="margin-top:16px">
- <button type="button" class="btn" onclick="closeModal()">Batal</button>
- <button class="btn primary">Simpan Rekod</button></div></form></div></div>`;
+  <div style="background:white;border-radius:18px;padding:20px;width:100%;max-width:560px;max-height:90vh;overflow:auto">
+   <h2 style="font-size:18px">Edit ${esc(h.name)} — Week ${w||"baharu"}</h2>
+   <p style="font-size:12px;color:#77857c">Tarikh minggu: ${esc(fmt(weekDateFor(h,r.w)))}</p>
+   <form id="weekForm" onsubmit="saveWeek(event)">
+    <div class="fields" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+     <div class="field"><label>Minggu (1–32)</label><input name="w" type="number" min="1" max="32" required value="${r.w}" ${w?"readonly":""}></div>
+     <div class="field"><label>Hari / Julat Hari</label><input name="day" value="${esc(r.day)}"></div>
+     <div class="field"><label>Set Point °C</label><input name="set" type="number" step=".5" required value="${esc(r.set)}"></div>
+     <div class="field"><label>Fan Manual</label><input name="manual" value="${esc(r.manual)}"></div>
+     <div class="field"><label>Fan Auto</label><input name="auto" value="${esc(r.auto)}"></div>
+     <div class="field"><label>Cooling Pad</label><input name="pad" value="${esc(r.pad)}"></div>
+     <div class="field"><label>Alarm</label><input name="alarm" value="${esc(r.alarm)}"></div>
+     <div class="field"><label>Nota</label><input name="note" value="${esc(r.note)}"></div>
+    </div>
+    <div class="actions" style="margin-top:16px">
+     <button type="button" class="btn" onclick="closeModal()">Batal</button>
+     <button class="btn primary">Simpan Rekod</button>
+    </div>
+   </form>
+  </div>
+ </div>`;
 }
+
 function saveWeek(e){
  e.preventDefault();
- const f=new FormData(e.target),h=house(),w=Number(f.get("w"));
+ const f=new FormData(e.target);
+ const h=house();
+ const w=Number(f.get("w"));
+
  if(w<1||w>32)return alert("Minggu mesti antara 1 hingga 32.");
- const r={w,day:f.get("day").trim()||"—",set:Number(f.get("set")),
- manual:f.get("manual").trim()||"—",auto:f.get("auto").trim()||"—",
- pad:f.get("pad").trim()||"—",alarm:f.get("alarm").trim()||"—",note:f.get("note").trim()};
+
+ const r={
+  w,day:f.get("day").trim()||"—",
+  set:Number(f.get("set")),
+  manual:f.get("manual").trim()||"—",
+  auto:f.get("auto").trim()||"—",
+  pad:f.get("pad").trim()||"—",
+  alarm:f.get("alarm").trim()||"—",
+  note:f.get("note").trim()
+ };
+
  const i=h.rows.findIndex(x=>x.w===w);
- if(i>=0)h.rows[i]=r;else h.rows.push(r);
+ if(i>=0)h.rows[i]=r;
+ else h.rows.push(r);
+
  h.rows.sort((a,b)=>a.w-b.w);
- saveAll();closeModal();renderAll();
+ if(saveAll()){closeModal();renderAll();}
 }
+
 function editStages(){
  const h=house();
  let html=`<div style="position:fixed;inset:0;background:#07140fc9;z-index:10;display:grid;place-items:center;padding:12px">
  <div style="background:white;border-radius:18px;padding:20px;width:100%;max-width:560px;max-height:90vh;overflow:auto">
  <h2 style="font-size:18px">Fan Stage — ${esc(h.name)}</h2>
  <p style="font-size:12px;color:#77857c">Masukkan nombor kipas mengikut konfigurasi rumah ini.</p>
- <form id="stageForm" onsubmit="saveStages(event)"><div class="fields" style="grid-template-columns:repeat(2,minmax(0,1fr))">`;
- h.stages.forEach((s,i)=>html+=`<div class="field"><label>Stage ${i+1} — kipas</label><input name="stage${i}" value="${esc(s.fans)}"></div>`);
- html+=`<div class="field" style="grid-column:1/-1"><label>Fan Manual</label><input name="manualFans" value="${esc(h.manualFans)}"></div></div>
- <div class="actions" style="margin-top:16px"><button type="button" class="btn" onclick="closeModal()">Batal</button><button class="btn primary">Simpan Fan Stage</button></div></form></div></div>`;
+ <form id="stageForm" onsubmit="saveStages(event)">
+ <div class="fields" style="grid-template-columns:repeat(2,minmax(0,1fr))">`;
+
+ h.stages.forEach((s,i)=>{
+  html+=`<div class="field"><label>Stage ${i+1} — kipas</label>
+  <input name="stage${i}" value="${esc(s.fans)}"></div>`;
+ });
+
+ html+=`<div class="field" style="grid-column:1/-1">
+ <label>Fan Manual</label>
+ <input name="manualFans" value="${esc(h.manualFans)}"></div></div>
+ <div class="actions" style="margin-top:16px">
+ <button type="button" class="btn" onclick="closeModal()">Batal</button>
+ <button class="btn primary">Simpan Fan Stage</button>
+ </div></form></div></div>`;
+
  document.getElementById("modalRoot").innerHTML=html;
 }
+
 function saveStages(e){
  e.preventDefault();
- const f=new FormData(e.target),h=house();
- h.stages=h.stages.map((s,i)=>({...s,fans:f.get("stage"+i).trim()||"Belum ditetapkan"}));
+ const f=new FormData(e.target);
+ const h=house();
+
+ h.stages=h.stages.map((s,i)=>({
+  ...s,fans:f.get("stage"+i).trim()||"Belum ditetapkan"
+ }));
  h.manualFans=f.get("manualFans").trim()||"Belum ditetapkan";
- saveAll();closeModal();renderAll();
- alert("Fan Stage untuk "+h.name+" berjaya disimpan.");
+
+ if(saveAll()){
+  closeModal();
+  renderAll();
+  alert("Fan Stage untuk "+h.name+" berjaya disimpan.");
+ }
 }
-function closeModal(){document.getElementById("modalRoot").innerHTML=""}
+
+function closeModal(){
+ document.getElementById("modalRoot").innerHTML="";
+}
+
 function exportCSV(){
  const h=house();
- const rows=[["Rumah",h.name],["Tarikh DOC",h.docDate||"Belum ditetapkan"],
- ["Minggu","Tarikh","Hari","Set Point","Fan Manual","Fan Auto","Cooling Pad","Alarm","Nota"],
- ...h.rows.map(r=>[r.w,fmt(weekDateFor(h,r.w)),r.day,r.set,r.manual,r.auto,r.pad,r.alarm,r.note])];
+ const rows=[
+  ["Rumah",h.name],
+  ["Tarikh DOC",h.docDate||"Belum ditetapkan"],
+  ["Umur semasa",ageInfo(h).valid
+   ?Math.floor(ageInfo(h).totalDays/7)+" minggu "+(ageInfo(h).totalDays%7)+" hari"
+   :"Belum tersedia"],
+  ["Minggu","Tarikh","Hari","Set Point","Fan Manual","Fan Auto","Cooling Pad","Alarm","Nota"],
+  ...h.rows.map(r=>[
+   r.w,fmt(weekDateFor(h,r.w)),r.day,r.set,
+   r.manual,r.auto,r.pad,r.alarm,r.note
+  ])
+ ];
+
  const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
- const url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download=h.name.replace(/[^a-z0-9]/gi,"_")+"_Fan_Set_Point.csv";
- a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download=h.name.replace(/[^a-z0-9]/gi,"_")+"_Fan_Set_Point.csv";
+ a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
+
 renderAll();
 </script>
 </body>
