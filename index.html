@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251e">
+<meta name="description" content="CAB Fan and Set Point Manager">
+<title>FAN & Set Point Manager | CAB</title>
+
+<style>
+:root{
+  --bg:#f3f6f4;--surface:#fff;--ink:#172820;
+  --muted:#78877e;--green:#176b4b;--green2:#239565;
+  --dark:#10251e;--line:#e5ebe6;--orange:#d97706;
+  --radius:18px
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1440px;margin:auto;padding:20px}
+.header{background:linear-gradient(125deg,#10251e,#176b4b);
+color:white;border-radius:24px;padding:25px;position:relative;overflow:hidden}
+.header:after{content:"CAB";position:absolute;right:18px;bottom:-27px;
+font-size:100px;font-weight:900;color:#ffffff0b}
+.brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.logo{width:49px;height:49px;border-radius:15px;background:#ffffff1c;
+display:grid;place-items:center;border:1px solid #ffffff35;font-size:22px;font-weight:900}
+.brand small{color:#c1dfce;letter-spacing:2px;font-size:10px}
+.brand h1{margin:5px 0;font-size:21px}
+.header p{color:#d0e3d7;font-size:13px;line-height:1.6;max-width:650px}
+.header-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:2}
+.btn{border:1px solid var(--line);background:white;color:var(--ink);
+padding:11px 14px;border-radius:11px;font-weight:700;font-size:12px}
+.btn.primary{background:var(--green2);color:white;border-color:var(--green2)}
+.btn.dark{background:#ffffff15;color:white;border-color:#ffffff40}
+.btn:hover{filter:brightness(.96)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:18px 0}
+.stat{padding:17px;background:var(--surface);border:1px solid var(--line);
+border-radius:var(--radius);min-width:0}
+.stat .label{font-size:11px;color:var(--muted);font-weight:700}
+.stat .number{font-size:28px;font-weight:800;margin:12px 0 5px}
+.stat .sub{font-size:11px;color:var(--muted)}
+.stat .symbol{float:right;font-size:20px}
+.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:17px}
+.sidebar,.panel{background:var(--surface);border:1px solid var(--line);
+border-radius:var(--radius);padding:18px;min-width:0}
+.section-label{color:var(--muted);font-size:10px;font-weight:800;
+letter-spacing:1.5px;margin:5px 0 12px}
+.nav{width:100%;display:flex;align-items:center;gap:10px;padding:12px;
+border:0;background:transparent;text-align:left;border-radius:10px;
+color:#56675c;font-size:12px;margin:3px 0}
+.nav.active{background:#e9f5ed;color:var(--green);font-weight:800}
+.nav .ico{font-size:17px;width:22px;text-align:center}
+.sidebar-note{background:#f0f6f1;border-radius:12px;padding:13px;
+font-size:11px;line-height:1.7;color:#476454;margin-top:22px}
+.content{min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;
+flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.panel-head h2{font-size:18px;margin:0 0 5px}
+.panel-head p{font-size:12px;color:var(--muted);margin:0}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.search{flex:1;min-width:160px;padding:12px 13px;border:1px solid var(--line);
+border-radius:11px;outline:none;background:#fbfcfb;color:var(--ink)}
+select,input,textarea{border:1px solid var(--line);border-radius:10px;
+padding:11px;background:white;color:var(--ink);max-width:100%}
+.search:focus,input:focus,select:focus,textarea:focus{border-color:#62a981;outline:none}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px}
+table{width:100%;border-collapse:collapse;min-width:830px;font-size:12px}
+thead{background:#f2f6f3}
+th{text-align:left;color:#5c6c61;font-size:10px;text-transform:uppercase;letter-spacing:.4px}
+th,td{padding:13px 11px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#f8fbf8}
+.week{font-weight:800;color:var(--green)}
+.pill{display:inline-block;padding:5px 8px;border-radius:7px;
+background:#e8f5ec;color:#176b4b;font-size:10px;font-weight:800}
+.pill.orange{background:#fff3df;color:#9a5b06}
+.view-btn{border:1px solid #d9e9de;background:white;color:var(--green);
+border-radius:8px;padding:7px 9px;font-size:10px;font-weight:800}
+.footer{padding:18px 4px;color:var(--muted);font-size:10px;line-height:1.7}
+.hidden{display:none!important}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.detail-card{border:1px solid var(--line);border-radius:14px;padding:15px}
+.detail-card h3{font-size:13px;margin:0 0 8px}
+.detail-card p{font-size:12px;line-height:1.7;color:#5e7064;margin:0}
+.detail-card strong{color:var(--ink)}
+.stage-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stage{display:flex;justify-content:space-between;align-items:center;gap:12px;
+border:1px solid var(--line);border-radius:12px;padding:14px}
+.stage strong{font-size:12px}
+.stage span{font-size:11px;color:var(--muted)}
+.callout{background:#fff7e8;border:1px solid #f5dfb7;color:#79520f;
+padding:13px;border-radius:12px;font-size:11px;line-height:1.7;margin:14px 0}
+.empty{text-align:center;padding:32px;color:var(--muted);font-size:13px}
+.mobile-nav{display:none}
+.date-settings{margin:18px 0;background:#fff;border:1px solid var(--line);
+border-radius:18px;padding:17px}
+.date-settings-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.date-icon{background:#e8f5ec;color:var(--green);padding:12px;border-radius:12px;font-size:22px}
+.date-settings h2{font-size:15px;margin:0 0 5px}
+.date-settings p{font-size:11px;color:var(--muted);margin:0;line-height:1.6}
+.date-controls{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin-top:15px}
+.date-controls .field{flex:1;min-width:190px}
+.date-controls input{width:100%}
+.date-controls select{width:100%}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;color:#627368;font-weight:700}
+.date-preview{font-size:11px;color:var(--green);font-weight:700;margin-top:12px}
+.modal-backdrop{position:fixed;inset:0;background:#07140fc2;z-index:20;
+display:flex;align-items:center;justify-content:center;padding:15px}
+.modal{width:100%;max-width:600px;max-height:90vh;overflow:auto;
+background:white;border-radius:20px;padding:22px}
+.modal h2{margin:0 0 5px;font-size:19px}
+.modal .muted{font-size:12px;color:var(--muted);margin-bottom:18px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field input,.field textarea{width:100%;min-width:0}
+.field.full{grid-column:1/-1}
+.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px}
+.notice{font-size:11px;color:var(--muted);line-height:1.7;margin-top:13px}
+@media(max-width:850px){
+.app{padding:12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stat{padding:13px}.stat .number{font-size:24px}
+.layout{grid-template-columns:1fr}.sidebar{display:none}
+.mobile-nav{display:flex;gap:7px;overflow-x:auto;margin:13px 0}
+.mobile-nav .nav{white-space:nowrap;width:auto;flex-shrink:0;background:white;border:1px solid var(--line)}
+.mobile-nav .nav.active{background:#e9f5ed;border-color:#c6e4d0}
+.panel{padding:13px}.header{padding:19px}.brand h1{font-size:18px}
+}
+@media(max-width:480px){
+.cards,.stage-list,.form-grid{grid-template-columns:1fr}
+.field.full{grid-column:auto}.header-actions .btn{flex:1}
+.stat .number{font-size:22px}
+}
+@media print{
+body{background:white}.app{max-width:none;padding:0}
+.header{background:white!important;color:black;border:1px solid #aaa}
+.header p,.brand small{color:#333}
+.header:after,.header-actions,.sidebar,.mobile-nav,.filters,.view-btn,.btn{display:none!important}
+.layout{display:block}.panel{border:0;padding:0}
+.stats{margin:10px 0}.stat{border:1px solid #aaa}
+.table-wrap{overflow:visible}table{min-width:0;font-size:9px}
+th,td{padding:6px 4px}.date-settings{border:1px solid #aaa}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="header">
+  <div class="brand">
+    <div class="logo">CAB</div>
+    <div>
+      <small>BREEDING FARM MANAGEMENT</small>
+      <h1>FAN & SET POINT MANAGER</h1>
+    </div>
+  </div>
+  <p>Rujukan digital tetapan suhu, FAN MANUAL, FAN AUTO, cooling pad dan alarm mengikut umur ayam.</p>
+  <div class="header-actions">
+    <button class="btn primary" onclick="openEditor()">＋ Tambah / Edit Data</button>
+    <button class="btn dark" onclick="exportCSV()">↓ Eksport CSV</button>
+    <button class="btn dark" onclick="window.print()">▤ Cetak Jadual</button>
+  </div>
+</header>
+
+<!-- TETAPAN TARIKH DOC -->
+<section class="date-settings">
+  <div class="date-settings-top">
+    <div class="date-icon">📅</div>
+    <div>
+      <h2>Tetapan Musim / Flock</h2>
+      <p>Masukkan tarikh DOC masuk. Tarikh Week 1–32 akan dikira secara automatik.</p>
+    </div>
+  </div>
+
+  <div class="date-controls">
+    <div class="field">
+      <label for="docDate">TARIKH DOC MASUK</label>
+      <input type="date" id="docDate">
+    </div>
+    <div class="field">
+      <label for="weekMode">KAEDAH MINGGU</label>
+      <select id="weekMode">
+        <option value="flock">Setiap 7 hari dari tarikh DOC</option>
+        <option value="calendar">Minggu kalendar Ahad–Sabtu</option>
+      </select>
+    </div>
+    <button class="btn primary" onclick="saveDateSettings()">Simpan Tarikh</button>
+  </div>
+  <div class="date-preview" id="datePreview"></div>
+  <div class="notice">Tarikh disimpan pada peranti ini. Untuk musim baharu, tukar tarikh DOC masuk di sini. Tetapan kipas dan suhu tidak berubah.</div>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <span class="symbol">🌡️</span>
+    <div class="label">SET POINT MINGGU AKHIR</div>
+    <div class="number" id="statSet">22°C</div>
+    <div class="sub" id="statSetSub">Rujukan Week 32</div>
+  </div>
+  <div class="stat">
+    <span class="symbol">🌀</span>
+    <div class="label">REKOD MINGGU</div>
+    <div class="number" id="statWeeks">32</div>
+    <div class="sub">Week 1 hingga Week 32</div>
+  </div>
+  <div class="stat">
+    <span class="symbol">💧</span>
+    <div class="label">COOLING PAD TERAKHIR</div>
+    <div class="number" id="statPad">30.5</div>
+    <div class="sub">Rujukan Week 27</div>
+  </div>
+  <div class="stat">
+    <span class="symbol">🔔</span>
+    <div class="label">REKOD ALARM</div>
+    <div class="number" id="statAlarm">9</div>
+    <div class="sub">Rekod dalam jadual</div>
+  </div>
+</section>
+
+<div class="mobile-nav">
+  <button class="nav active" data-page="table"><span class="ico">▦</span> Jadual Mingguan</button>
+  <button class="nav" data-page="stages"><span class="ico">🌀</span> Fan Stage</button>
+  <button class="nav" data-page="notes"><span class="ico">📋</span> Nota & Panduan</button>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="section-label">MENU UTAMA</div>
+  <button class="nav active" data-page="table"><span class="ico">▦</span> Jadual Mingguan</button>
+  <button class="nav" data-page="stages"><span class="ico">🌀</span> Fan Stage</button>
+  <button class="nav" data-page="notes"><span class="ico">📋</span> Nota & Panduan</button>
+  <div class="sidebar-note"><strong>📌 Rujukan CAB</strong><br>
+    Cari minggu tertentu, tukar tarikh DOC dan rujuk tetapan kipas dengan pantas.</div>
+  <div style="margin-top:18px">
+    <button class="btn" style="width:100%" onclick="resetData()">Pulihkan Data Asal</button>
+  </div>
+</aside>
+
+<main class="content">
+<section class="panel" id="page-table">
+  <div class="panel-head">
+    <div><h2>Jadual Fan & Set Point</h2>
+    <p>Tarikh dijana berdasarkan tetapan DOC masuk di atas.</p></div>
+    <span class="pill">WEEK 1–32</span>
+  </div>
+  <div class="filters">
+    <input class="search" id="search" placeholder="🔎 Cari minggu, tarikh, suhu, kipas..." oninput="renderTable()">
+    <select id="filterSet" onchange="renderTable()">
+      <option value="">Semua set point</option>
+      <option>32</option><option>31</option><option>30</option>
+      <option>29</option><option>28</option><option>27</option>
+      <option>26</option><option>25</option><option>24</option>
+      <option>23</option><option>22</option>
+    </select>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Minggu / Tarikh</th><th>Hari</th><th>Set Point</th>
+        <th>Fan Manual</th><th>Fan Auto</th><th>Cooling Pad</th>
+        <th>Alarm</th><th>Butiran</th>
+      </tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <div class="notice">Tarikh dalam jadual dijana secara automatik. Data tetapan kipas, set point dan cooling pad dikekalkan berasingan daripada tarikh DOC.</div>
+</section>
+
+<section class="panel hidden" id="page-stages">
+  <div class="panel-head"><div><h2>Rujukan Fan Stage</h2>
+  <p>Senarai berdasarkan nota pada gambar asal.</p></div></div>
+  <div class="callout">Nombor stage ialah rujukan dokumen, bukan pengesahan kipas sedang berjalan. Semak status output pada controller untuk ujian sebenar.</div>
+  <div class="stage-list" id="stageList"></div>
+  <div class="detail-card" style="margin-top:12px">
+    <h3>Fan manual</h3><p>Nota asal menyatakan Manual – Fan 2 dan 10. Sahkan konfigurasi controller sebelum mengubah output.</p>
+  </div>
+</section>
+
+<section class="panel hidden" id="page-notes">
+  <div class="panel-head"><div><h2>Nota & Panduan</h2>
+  <p>Maklumat rujukan aplikasi.</p></div></div>
+  <div class="cards">
+    <div class="detail-card"><h3>🌡️ Set Point</h3><p>Nilai suhu sasaran mengikut minggu. Sahkan dengan SOP dan bacaan sensor ladang.</p></div>
+    <div class="detail-card"><h3>🌀 Fan Manual</h3><p>Rujukan kipas manual yang dicatatkan dalam jadual asal.</p></div>
+    <div class="detail-card"><h3>⚙️ Fan Auto</h3><p>Rujukan tetapan automatik. “—” bermaksud tiada nilai dimasukkan.</p></div>
+    <div class="detail-card"><h3>💧 Cooling Pad</h3><p>Nilai dipaparkan sebagaimana direkodkan. Sahkan maksud angka dengan controller.</p></div>
+    <div class="detail-card"><h3>🔔 Alarm</h3><p>Ambang alarm daripada jadual asal. Sahkan logik dan nilai sebenar pada controller.</p></div>
+    <div class="detail-card"><h3>💾 Simpanan</h3><p>Data disimpan dalam pelayar peranti ini. Storan ini tidak disegerakkan secara automatik antara peranti.</p></div>
+  </div>
+  <div class="callout">Aplikasi ini ialah alat rujukan sahaja dan tidak bersambung kepada controller kipas.</div>
+</section>
+</main>
+</div>
+
+<footer class="footer">
+CAB GROUP · FAN AND SET POINT SETTING · Rujukan digital dalaman<br>
+Tetapan kipas berdasarkan jadual asal. Tarikh dikira berdasarkan tarikh DOC yang dipilih.
+</footer>
+</div>
+
+<div id="modalRoot"></div>
+
+<script>
+const originalData = [
+{w:1,day:"0–7",set:32,manual:"MV ON 120, OFF 300",auto:"—",pad:"10%",alarm:"—",note:""},
+{w:2,day:"8–14",set:32,manual:"5",auto:"—",pad:"10%",alarm:"—",note:""},
+{w:3,day:"15–21",set:31,manual:"5",auto:"—",pad:"10%",alarm:"—",note:""},
+{w:4,day:"—",set:30,manual:"5, 6",auto:"—",pad:"25%",alarm:"—",note:""},
+{w:5,day:"22–42",set:29,manual:"5, 6",auto:"—",pad:"25%",alarm:"—",note:""},
+{w:6,day:"—",set:28,manual:"5, 6",auto:"—",pad:"25%",alarm:"—",note:""},
+{w:7,day:"—",set:28,manual:"5, 6, 3",auto:"—",pad:"50%",alarm:"—",note:""},
+{w:8,day:"43–63",set:28,manual:"5, 6, 3",auto:"—",pad:"50%",alarm:"—",note:""},
+{w:9,day:"—",set:28,manual:"5, 6, 3",auto:"—",pad:"50%",alarm:"—",note:""},
+{w:10,day:"—",set:28,manual:"5, 6, 3, 7",auto:"—",pad:"50%",alarm:"—",note:""},
+{w:11,day:"64–84",set:28,manual:"5, 6, 3, 7",auto:"—",pad:"50%",alarm:"—",note:""},
+{w:12,day:"—",set:28,manual:"5, 6, 3, 7",auto:"—",pad:"50%",alarm:"—",note:""},
+{w:13,day:"—",set:28,manual:"5, 6, 3, 7",auto:"—",pad:"50%",alarm:"—",note:""},
+{w:14,day:"85–105",set:28,manual:"5, 6, 3, 7, 9",auto:"—",pad:"85%",alarm:"—",note:""},
+{w:15,day:"—",set:28,manual:"5, 6, 3, 7, 9",auto:"—",pad:"85%",alarm:"—",note:""},
+{w:16,day:"—",set:27,manual:"5, 6, 3, 7, 9, 2",auto:"—",pad:"85%",alarm:"—",note:""},
+{w:17,day:"106–126",set:27,manual:"5, 6, 3, 7, 9, 2",auto:"—",pad:"85%",alarm:"—",note:""},
+{w:18,day:"—",set:27,manual:"5, 6, 3, 7, 9, 2",auto:"—",pad:"85%",alarm:"—",note:""},
+{w:19,day:"—",set:27,manual:"5, 6, 3, 7, 9, 2, 10",auto:"—",pad:"100% / 35.5",alarm:"LOW>20",note:"Cooling pad ON 60, OFF 600"},
+{w:20,day:"127–154",set:27,manual:"5, 6, 3, 7, 9, 2, 10",auto:"—",pad:"35.5",alarm:"HI>37",note:""},
+{w:21,day:"—",set:27,manual:"5, 6, 3, 7, 9, 2, 10",auto:"—",pad:"35.5",alarm:"HI>37",note:""},
+{w:22,day:"—",set:27,manual:"5, 6, 3, 7, 9, 2, 10",auto:"—",pad:"35.5",alarm:"HI>37",note:""},
+{w:23,day:"155",set:26,manual:"—",auto:"4, 8",pad:"34.5",alarm:"HI>36",note:""},
+{w:24,day:"162",set:25,manual:"5, 6, 3, 7, 9, 2, 10, 1",auto:"4, 8",pad:"33.5",alarm:"HI>35",note:""},
+{w:25,day:"169",set:24,manual:"—",auto:"4, 8",pad:"32.5",alarm:"HI>34",note:""},
+{w:26,day:"176",set:23,manual:"—",auto:"4, 8",pad:"31.5",alarm:"HI>33.5",note:""},
+{w:27,day:"183+",set:22,manual:"—",auto:"4, 8",pad:"30.5",alarm:"HI>33.5",note:""},
+{w:28,day:"—",set:22,manual:"—",auto:"—",pad:"—",alarm:"—",note:""},
+{w:29,day:"—",set:22,manual:"—",auto:"—",pad:"—",alarm:"—",note:""},
+{w:30,day:"—",set:22,manual:"—",auto:"—",pad:"—",alarm:"—",note:""},
+{w:31,day:"—",set:22,manual:"—",auto:"—",pad:"—",alarm:"—",note:""},
+{w:32,day:"—",set:22,manual:"—",auto:"—",pad:"—",alarm:"—",note:""}
+];
+
+const stages=[
+["STAGE 1","FAN 6"],["STAGE 2","FAN 5"],
+["STAGE 3","FAN 7"],["STAGE 4","FAN 8"],
+["STAGE 5","FAN 4"],["STAGE 6","FAN 3"],
+["STAGE 7","FAN 1, 9"]
+];
+
+const DATA_KEY="cabFanSettingsV2";
+const DATE_KEY="cabDocDateV1";
+const MODE_KEY="cabWeekModeV1";
+
+let data=loadData();
+let docDate=localStorage.getItem(DATE_KEY)||"2025-07-12";
+let weekMode=localStorage.getItem(MODE_KEY)||"flock";
+
+function loadData(){
+  try{
+    const saved=localStorage.getItem(DATA_KEY);
+    if(saved){
+      const parsed=JSON.parse(saved);
+      if(Array.isArray(parsed)&&parsed.length===32)return parsed;
+    }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(originalData));
+}
+function saveData(){
+  try{localStorage.setItem(DATA_KEY,JSON.stringify(data))}
+  catch(e){alert("Data tidak dapat disimpan pada pelayar ini.")}
+}
+function esc(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function parseLocalDate(value){
+  if(!value)return null;
+  const parts=value.split("-").map(Number);
+  if(parts.length!==3||parts.some(Number.isNaN))return null;
+  const d=new Date(parts[0],parts[1]-1,parts[2],12);
+  return Number.isNaN(d.getTime())?null:d;
+}
+function formatDate(date){
+  if(!date)return "Pilih tarikh DOC";
+  return date.toLocaleDateString("ms-MY",{
+    day:"2-digit",month:"short",year:"numeric"
+  });
+}
+function dateForWeek(w){
+  const start=parseLocalDate(docDate);
+  if(!start)return null;
+
+  let offset=(w-1)*7;
+  if(weekMode==="calendar"){
+    const daysUntilSunday=(7-start.getDay())%7;
+    offset=daysUntilSunday+(w-1)*7;
+  }
+  const d=new Date(start);
+  d.setDate(d.getDate()+offset);
+  return d;
+}
+function dateText(w){
+  return formatDate(dateForWeek(w));
+}
+function saveDateSettings(){
+  const selected=document.getElementById("docDate").value;
+  if(!parseLocalDate(selected)){
+    alert("Sila pilih tarikh DOC masuk yang sah.");
+    return;
+  }
+  docDate=selected;
+  weekMode=document.getElementById("weekMode").value;
+  localStorage.setItem(DATE_KEY,docDate);
+  localStorage.setItem(MODE_KEY,weekMode);
+  renderAll();
+  alert("Tarikh DOC berjaya disimpan. Tarikh semua minggu telah dikemas kini.");
+}
+function updateDatePreview(){
+  const start=parseLocalDate(docDate);
+  const el=document.getElementById("datePreview");
+  if(!start){el.textContent="Sila pilih tarikh DOC masuk.";return}
+  el.textContent="Week 1: "+dateText(1)+"  •  Week 2: "+dateText(2)+
+    "  •  Week 32: "+dateText(32);
+}
+function renderStats(){
+  document.getElementById("statWeeks").textContent=data.length;
+  const last=data.find(x=>x.w===32);
+  document.getElementById("statSet").textContent=(last?.set??22)+"°C";
+  document.getElementById("statSetSub").textContent="Rujukan Week 32";
+  document.getElementById("statPad").textContent=data.find(x=>x.w===27)?.pad??"—";
+  document.getElementById("statAlarm").textContent=
+    data.filter(x=>x.alarm&&x.alarm!=="—").length;
+}
+function renderTable(){
+  const q=document.getElementById("search").value.toLowerCase().trim();
+  const fs=document.getElementById("filterSet").value;
+  const filtered=data.filter(r=>{
+    const hay=[r.w,dateText(r.w),r.day,r.set,r.manual,r.auto,r.pad,r.alarm,r.note]
+      .join(" ").toLowerCase();
+    return hay.includes(q)&&(!fs||String(r.set)===fs);
+  });
+
+  document.getElementById("tableBody").innerHTML=filtered.length?
+  filtered.map(r=>`
+    <tr>
+      <td><span class="week">W${r.w}</span><br>
+      <span style="color:#78877e;font-size:10px">${esc(dateText(r.w))}</span></td>
+      <td>${esc(r.day)}</td>
+      <td><span class="pill">${esc(r.set)}°C</span></td>
+      <td>${esc(r.manual)}</td><td>${esc(r.auto)}</td><td>${esc(r.pad)}</td>
+      <td>${r.alarm==="—"?"—":`<span class="pill orange">${esc(r.alarm)}</span>`}</td>
+      <td><button class="view-btn" onclick="viewWeek(${r.w})">Lihat / Edit</button></td>
+    </tr>`).join("") :
+    `<tr><td colspan="8"><div class="empty">Tiada rekod dijumpai.</div></td></tr>`;
+}
+function renderStages(){
+  document.getElementById("stageList").innerHTML=stages.map(s=>`
+    <div class="stage"><strong>${esc(s[0])}</strong><span>${esc(s[1])}</span></div>
+  `).join("");
+}
+function renderAll(){
+  renderStats();renderTable();renderStages();updateDatePreview();
+}
+function showPage(page){
+  ["table","stages","notes"].forEach(p=>{
+    document.getElementById("page-"+p).classList.toggle("hidden",p!==page);
+  });
+  document.querySelectorAll("[data-page]").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===page);
+  });
+}
+document.querySelectorAll("[data-page]").forEach(b=>{
+  b.addEventListener("click",()=>showPage(b.dataset.page));
+});
+
+function viewWeek(w){openEditor(w)}
+function openEditor(week){
+  const r=week?data.find(x=>x.w===week):{
+    w:1,day:"—",set:28,manual:"—",auto:"—",pad:"—",alarm:"—",note:""
+  };
+  document.getElementById("modalRoot").innerHTML=`
+  <div class="modal-backdrop" onclick="if(event.target===this)closeEditor()">
+    <div class="modal">
+      <h2>${week?"Edit Rekod Minggu "+week:"Tambah / Edit Rekod"}</h2>
+      <div class="muted">Tarikh dijana automatik daripada tarikh DOC masuk.</div>
+      <form id="editForm" onsubmit="saveRecord(event)">
+        <div class="form-grid">
+          <div class="field"><label>Minggu (1–32)</label>
+            <input name="w" type="number" min="1" max="32" required value="${esc(r.w)}" ${week?"readonly":""}>
+          </div>
+          <div class="field"><label>Tarikh automatik</label>
+            <input value="${esc(dateText(r.w))}" readonly>
+          </div>
+          <div class="field"><label>Hari / Julat Hari</label><input name="day" value="${esc(r.day)}"></div>
+          <div class="field"><label>Set Point (°C)</label><input name="set" type="number" step="0.5" required value="${esc(r.set)}"></div>
+          <div class="field"><label>Fan Manual</label><input name="manual" value="${esc(r.manual)}"></div>
+          <div class="field"><label>Fan Auto</label><input name="auto" value="${esc(r.auto)}"></div>
+          <div class="field"><label>Cooling Pad</label><input name="pad" value="${esc(r.pad)}"></div>
+          <div class="field"><label>Alarm</label><input name="alarm" value="${esc(r.alarm)}"></div>
+          <div class="field full"><label>Nota tambahan</label><textarea name="note" rows="3">${esc(r.note)}</textarea></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn" onclick="closeEditor()">Batal</button>
+          <button type="submit" class="btn primary">Simpan Rekod</button>
+        </div>
+      </form>
+      <div class="notice">Untuk mengubah tarikh, gunakan Tetapan Musim / Flock pada dashboard.</div>
+    </div>
+  </div>`;
+}
+function closeEditor(){document.getElementById("modalRoot").innerHTML=""}
+function saveRecord(event){
+  event.preventDefault();
+  const f=new FormData(event.target);
+  const w=Number(f.get("w"));
+  if(w<1||w>32)return alert("Minggu mestilah antara 1 hingga 32.");
+
+  const record={
+    w,day:f.get("day").trim()||"—",
+    set:Number(f.get("set")),
+    manual:f.get("manual").trim()||"—",
+    auto:f.get("auto").trim()||"—",
+    pad:f.get("pad").trim()||"—",
+    alarm:f.get("alarm").trim()||"—",
+    note:f.get("note").trim()
+  };
+  const index=data.findIndex(x=>x.w===w);
+  if(index>=0)data[index]=record;
+  else data.push(record);
+  data.sort((a,b)=>a.w-b.w);
+  saveData();renderAll();closeEditor();
+  alert("Rekod berjaya disimpan.");
+}
+function exportCSV(){
+  const headers=["Minggu","Tarikh DOC","Tarikh Minggu","Hari","Set Point",
+    "Fan Manual","Fan Auto","Cooling Pad","Alarm","Nota"];
+  const rows=data.map(r=>[
+    r.w,docDate,dateText(r.w),r.day,r.set,r.manual,r.auto,r.pad,r.alarm,r.note
+  ]);
+  const csv=[headers,...rows].map(row=>row.map(v=>{
+    let s=String(v??"");
+    if(/^[=+\-@]/.test(s))s="'"+s;
+    return '"'+s.replace(/"/g,'""')+'"';
+  }).join(",")).join("\r\n");
+  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="CAB_Fan_Set_Point.csv";a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function resetData(){
+  if(!confirm("Pulihkan tetapan kipas kepada data asal? Tarikh DOC masuk tidak akan diubah."))return;
+  data=JSON.parse(JSON.stringify(originalData));
+  saveData();renderAll();
+}
+
+document.getElementById("docDate").value=docDate;
+document.getElementById("weekMode").value=weekMode;
+document.getElementById("docDate").addEventListener("change",()=>{
+  const value=document.getElementById("docDate").value;
+  if(parseLocalDate(value)){
+    const old=docDate;docDate=value;updateDatePreview();docDate=old;
+  }
+});
+renderAll();
+</script>
+</body>
+</html>
