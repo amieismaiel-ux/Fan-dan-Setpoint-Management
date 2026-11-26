@@ -3,60 +3,71 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#10251e">
-<meta name="description" content="CAB Farm Management Pro">
-<title>CAB | Farm Management Pro</title>
+<title>CAB Farm Management Pro V4</title>
 <link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icon-192.png">
 
 <style>
 :root{
 --bg:#f3f6f4;--white:#fff;--ink:#172820;
 --muted:#77857c;--green:#176b4b;--bright:#239565;
---line:#e3eae5;--dark:#10251e;--orange:#fff1d9;
+--line:#e3eae5;--orange:#fff1d9;--red:#fff0ee;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);
+font-family:Arial,Helvetica,sans-serif}
 button,input,select{font:inherit}
 button{cursor:pointer}
 .app{max-width:1450px;margin:auto;padding:15px}
-.hero{background:linear-gradient(130deg,#10251e,#176b4b);color:white;padding:24px;border-radius:22px;margin-bottom:15px}
+.hero{background:linear-gradient(130deg,#10251e,#176b4b);
+color:white;padding:24px;border-radius:22px;margin-bottom:15px}
 .brand{display:flex;align-items:center;gap:13px}
-.logo{display:grid;place-items:center;width:50px;height:50px;border-radius:14px;background:#ffffff20;font-size:22px;font-weight:900}
+.logo{display:grid;place-items:center;width:50px;height:50px;
+border-radius:14px;background:#ffffff20;font-size:22px;font-weight:900}
 .brand small{letter-spacing:2px;color:#c1dfce;font-size:10px}
 h1{font-size:21px;margin:6px 0}
 .hero p{font-size:12px;color:#d5e6dc;line-height:1.7}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);border-radius:10px;background:white;padding:11px 14px;font-size:12px;font-weight:700;color:var(--ink)}
+.btn{border:1px solid var(--line);border-radius:10px;
+background:white;padding:11px 14px;font-size:12px;
+font-weight:700;color:var(--ink)}
 .btn.primary{background:var(--bright);color:white;border-color:var(--bright)}
 .btn.dark{background:#ffffff18;color:white;border-color:#ffffff45}
 .btn.secondary{background:#f2f7f3;color:var(--green)}
-.house-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
-.house-btn{border:1px solid var(--line);background:white;border-radius:14px;padding:14px;text-align:left;color:var(--ink);min-width:0}
+.house-picker{display:grid;grid-template-columns:repeat(4,1fr);
+gap:10px;margin-bottom:15px}
+.house-btn{border:1px solid var(--line);background:white;
+border-radius:14px;padding:14px;text-align:left;color:var(--ink)}
 .house-btn.active{background:#e5f4e9;border:2px solid var(--green);padding:13px}
 .house-btn strong{display:block;font-size:14px;margin-bottom:7px}
 .house-btn span{font-size:10px;color:var(--muted);line-height:1.7}
-.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:17px;margin-bottom:15px}
-.panel-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px}
+.panel{background:white;border:1px solid var(--line);
+border-radius:17px;padding:17px;margin-bottom:15px}
+.panel-head{display:flex;justify-content:space-between;
+align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px}
 .panel-head h2{font-size:17px;margin:0 0 5px}
 .panel-head p{font-size:11px;color:var(--muted);margin:0;line-height:1.6}
 .fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field label{font-size:11px;font-weight:700;color:#627368}
-input,select{width:100%;min-width:0;padding:12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}
-.age-display{margin-top:8px;padding:13px;background:#e8f6ed;border:1px solid #d5eadb;border-radius:12px}
+input,select{width:100%;min-width:0;padding:12px;
+border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}
+.age-display{margin-top:8px;padding:13px;background:#e8f6ed;
+border:1px solid #d5eadb;border-radius:12px}
 .age-display label{font-size:10px;font-weight:800;color:#627368}
 .age-display strong{display:block;margin:7px 0;font-size:24px;color:var(--green)}
 .age-display span{font-size:11px;color:#627368;line-height:1.7}
 .hint{font-size:11px;line-height:1.7;color:var(--muted);margin-top:11px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
-.stat{background:white;border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.stat{background:white;border:1px solid var(--line);border-radius:14px;
+padding:14px;min-width:0}
 .stat label{font-size:10px;font-weight:700;color:var(--muted)}
 .stat strong{display:block;font-size:23px;margin:10px 0 5px;overflow-wrap:anywhere}
 .stat small{font-size:10px;color:var(--muted)}
 .tabs{display:flex;gap:7px;overflow-x:auto;margin-bottom:12px}
-.tab{white-space:nowrap;background:white;border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:12px;font-weight:700}
+.tab{white-space:nowrap;background:white;border:1px solid var(--line);
+border-radius:10px;padding:11px 14px;font-size:12px;font-weight:700}
 .tab.active{background:#e5f4e9;border-color:#b7dcc3;color:var(--green)}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px}
 table{width:100%;min-width:850px;border-collapse:collapse;font-size:12px}
@@ -64,16 +75,18 @@ thead{background:#f0f5f1}
 th,td{padding:11px 9px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
 th{font-size:10px;color:#5c6c61;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:0}
-.pill{display:inline-block;background:#e5f4e9;color:var(--green);border-radius:7px;padding:5px 8px;font-size:10px;font-weight:800}
-.pill.warn{background:var(--orange);color:#945d10}
-.pill.blue{background:#e8f0ff;color:#315c9b}
-.note{background:#fff7e8;border:1px solid #f1dfb9;border-radius:11px;padding:13px;color:#79520f;font-size:11px;line-height:1.7;margin:12px 0}
+.pill{display:inline-block;background:#e5f4e9;color:var(--green);
+border-radius:7px;padding:5px 8px;font-size:10px;font-weight:800}
+.note{background:#fff7e8;border:1px solid #f1dfb9;
+border-radius:11px;padding:13px;color:#79520f;font-size:11px;line-height:1.7;margin:12px 0}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.stagecard{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;justify-content:space-between;gap:10px}
+.stagecard{border:1px solid var(--line);border-radius:12px;
+padding:14px;display:flex;justify-content:space-between;gap:10px}
 .stagecard strong{font-size:12px}
 .stagecard span{font-size:12px;color:var(--green);font-weight:700}
 .dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.dash-card{background:white;border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}
+.dash-card{background:white;border:1px solid var(--line);
+border-radius:15px;padding:15px;min-width:0}
 .dash-card.selected{border:2px solid var(--green);padding:14px}
 .dash-card h3{font-size:14px;margin:0 0 5px}
 .dash-card p{font-size:11px;color:var(--muted)}
@@ -83,21 +96,40 @@ tbody tr:last-child td{border-bottom:0}
 .metric{border:1px solid var(--line);border-radius:9px;padding:9px;min-width:0}
 .metric small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
 .metric strong{font-size:12px;overflow-wrap:anywhere}
-.vax-highlight{border:1px solid #cfe5d5;background:#f4fbf5;border-radius:12px;padding:13px;margin-bottom:12px}
-.vax-highlight h3{font-size:13px;margin:0 0 9px;color:var(--green)}
-.vax-item{border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:8px}
-.vax-item h4{font-size:13px;margin:7px 0}
-.vax-item p{font-size:11px;color:#627368;margin:4px 0;line-height:1.6}
+.vax-highlight{border:1px solid #cfe5d5;background:#f4fbf5;
+border-radius:12px;padding:14px;margin-bottom:13px}
+.vax-highlight h3{font-size:13px;margin:0 0 11px;color:var(--green)}
+.vax-item{border:1px solid var(--line);border-radius:11px;
+padding:13px;margin-bottom:9px;background:white}
+.vax-item:last-child{margin-bottom:0}
+.vax-item h4{font-size:14px;margin:7px 0}
+.vax-item p{font-size:11px;color:#627368;margin:5px 0;line-height:1.6}
 .vax-item.today{border:2px solid var(--green);background:#f5fbf6}
-.vax-item.past{opacity:.8}
+.vax-item.past{border-left:4px solid #239565}
 .vax-item.upcoming{border-left:4px solid #dba43a}
 .vax-status{font-size:10px;font-weight:800;color:var(--green)}
-.vax-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.vax-filter button{border:1px solid var(--line);background:white;padding:9px 12px;border-radius:9px;font-size:11px;font-weight:700}
+.vax-item.upcoming .vax-status{color:#945d10}
+.vax-action{display:flex;justify-content:space-between;
+align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.done-btn{border:1px solid #d7e6dc;background:#f0f8f2;
+color:var(--green);border-radius:8px;padding:9px 11px;
+font-size:10px;font-weight:800}
+.done-btn.completed{background:#176b4b;color:white;border-color:#176b4b}
+.vax-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.vax-filter button{border:1px solid var(--line);background:white;
+padding:9px 12px;border-radius:9px;font-size:11px;font-weight:700}
 .vax-filter button.active{background:#e5f4e9;color:var(--green)}
+.history-heading{display:flex;justify-content:space-between;
+align-items:center;gap:8px;margin-bottom:11px}
+.history-heading h3{font-size:14px;margin:0}
+.history-heading span{font-size:10px;color:var(--muted)}
+.empty{text-align:center;padding:20px;color:var(--muted);
+font-size:12px;line-height:1.7}
 .hidden{display:none!important}
-.modal{position:fixed;inset:0;background:#07140fc9;z-index:100;display:grid;place-items:center;padding:12px}
-.modal-box{background:white;border-radius:17px;padding:20px;width:100%;max-width:560px;max-height:90vh;overflow:auto}
+.modal{position:fixed;inset:0;background:#07140fc9;z-index:100;
+display:grid;place-items:center;padding:12px}
+.modal-box{background:white;border-radius:17px;padding:20px;
+width:100%;max-width:560px;max-height:90vh;overflow:auto}
 .modal-box h2{font-size:18px;margin-top:0}
 footer{font-size:10px;color:var(--muted);padding:12px;line-height:1.7}
 @media(max-width:760px){
@@ -109,7 +141,7 @@ footer{font-size:10px;color:var(--muted);padding:12px;line-height:1.7}
 .panel{padding:13px}
 }
 @media print{
-.actions,.house-picker,.tabs,.vax-filter,.btn{display:none!important}
+.actions,.house-picker,.tabs,.vax-filter,.btn,.done-btn{display:none!important}
 body{background:white}.tablewrap{overflow:visible}
 table{min-width:0;font-size:8px}
 th,td{padding:5px 3px}
@@ -128,7 +160,7 @@ th,td{padding:5px 3px}
    <h1>FAN, SET POINT & VACCINE MANAGER</h1>
   </div>
  </div>
- <p>Sistem pengurusan empat rumah ayam. Pantau umur, ventilasi, suhu dan program vaksinasi dalam satu dashboard.</p>
+ <p>Sistem pengurusan empat rumah ayam. Pantau umur, ventilasi, suhu, program vaksin dan sejarah pelaksanaan vaksin.</p>
  <div class="actions">
   <button class="btn primary" onclick="editWeek()">＋ Edit Rekod Minggu</button>
   <button class="btn dark" onclick="editStages()">🌀 Edit Fan Stage</button>
@@ -164,7 +196,6 @@ th,td{padding:5px 3px}
    <label>Nama Rumah</label>
    <input id="houseName" placeholder="Contoh: Gurun Farm 1">
   </div>
-
   <div class="field">
    <label>Tarikh DOC Masuk</label>
    <input type="date" id="docDate">
@@ -174,7 +205,6 @@ th,td{padding:5px 3px}
     <span id="currentAgeDetail">Masukkan tarikh DOC.</span>
    </div>
   </div>
-
   <div class="field">
    <label>Kaedah Pengiraan Minggu</label>
    <select id="weekMode">
@@ -190,7 +220,7 @@ th,td{padding:5px 3px}
    <option value="A">PROGRAM A — Jadual asal</option>
    <option value="B">PROGRAM B — Jadual tambahan</option>
   </select>
-  <div class="hint">Setiap rumah boleh memilih Program A atau Program B secara berasingan.</div>
+  <div class="hint">Setiap rumah boleh memilih program vaksin sendiri.</div>
  </div>
 
  <div class="actions" style="margin-top:13px">
@@ -237,20 +267,13 @@ th,td{padding:5px 3px}
   </div>
   <span class="pill">WEEK 1–32</span>
  </div>
-
  <div class="tablewrap">
   <table>
    <thead>
     <tr>
-     <th>Minggu / Tarikh</th>
-     <th>Hari</th>
-     <th>Set Point</th>
-     <th>Fan Manual</th>
-     <th>Fan Auto</th>
-     <th>Cooling Pad</th>
-     <th>Alarm</th>
-     <th>Nota</th>
-     <th>Edit</th>
+     <th>Minggu / Tarikh</th><th>Hari</th><th>Set Point</th>
+     <th>Fan Manual</th><th>Fan Auto</th><th>Cooling Pad</th>
+     <th>Alarm</th><th>Nota</th><th>Edit</th>
     </tr>
    </thead>
    <tbody id="tableBody"></tbody>
@@ -267,32 +290,47 @@ th,td{padding:5px 3px}
   <span class="pill" id="vaxBadge">PROGRAM A</span>
  </div>
 
+ <!-- VAKSIN HARI INI -->
  <div class="vax-highlight">
   <h3>📍 VAKSIN MENGIKUT UMUR AYAM SEKARANG</h3>
   <div id="todayVaccines"></div>
  </div>
 
- <div class="grid2">
-  <div class="vax-highlight">
-   <h3>⏭️ VAKSIN SETERUSNYA</h3>
-   <div id="nextVaccines"></div>
+ <!-- SEJARAH VAKSIN TERDAHULU -->
+ <div class="vax-highlight">
+  <div class="history-heading">
+   <h3>☑️ SEJARAH VAKSIN TERDAHULU</h3>
+   <span id="historyCount">0 rekod</span>
   </div>
-  <div class="vax-highlight">
-   <h3>📅 RINGKASAN PROGRAM</h3>
-   <div id="vaxSummary"></div>
-  </div>
+  <p class="hint" style="margin:0 0 12px">
+   Vaksin yang dijadualkan pada hari-hari sebelumnya. Tandakan status selepas disahkan oleh team farm.
+  </p>
+  <div id="pastVaccines"></div>
  </div>
 
+ <!-- VAKSIN SETERUSNYA -->
+ <div class="vax-highlight">
+  <h3>⏭️ VAKSIN SETERUSNYA</h3>
+  <div id="nextVaccines"></div>
+ </div>
+
+ <!-- RINGKASAN -->
+ <div class="vax-highlight">
+  <h3>📊 RINGKASAN PROGRAM</h3>
+  <div id="vaxSummary"></div>
+ </div>
+
+ <!-- SENARAI LENGKAP -->
  <div class="panel-head" style="margin-top:18px">
   <div>
    <h2>Keseluruhan Jadual Vaksin</h2>
-   <p>Disusun mengikut hari dan minggu daripada DOC.</p>
+   <p>Semua rekod mengikut Day dan Week.</p>
   </div>
  </div>
 
  <div class="vax-filter">
   <button class="active" onclick="setVaxFilter('all',this)">Semua</button>
-  <button onclick="setVaxFilter('past',this)">Sudah berlalu</button>
+  <button onclick="setVaxFilter('past',this)">Terdahulu</button>
   <button onclick="setVaxFilter('today',this)">Hari ini</button>
   <button onclick="setVaxFilter('future',this)">Akan datang</button>
  </div>
@@ -317,10 +355,11 @@ th,td{padding:5px 3px}
  <h2>Nota Sistem</h2>
  <div class="note">
   1. Setiap rumah mempunyai tarikh DOC dan program vaksin sendiri.<br>
-  2. Program A dan B adalah dua jadual berasingan.<br>
-  3. Sistem mengira umur ayam berdasarkan tarikh DOC.<br>
-  4. Vaksin dipaparkan mengikut Day dan Week daripada jadual asal.<br>
-  5. Data disimpan dalam pelayar peranti ini sahaja.
+  2. Program A dan B mempunyai jadual berasingan.<br>
+  3. Umur dikira berdasarkan tarikh DOC.<br>
+  4. Vaksin terdahulu akan dipaparkan secara automatik.<br>
+  5. Status vaksin disimpan berasingan untuk setiap rumah.<br>
+  6. Status "Sudah dilaksanakan" perlu disahkan oleh team farm.
  </div>
  <div class="note">
   Jadual vaksin ialah rekod program yang diberikan. Sahkan kesesuaian vaksin, dos, laluan pemberian dan jadual sebenar dengan doktor veterinar serta SOP ladang sebelum pelaksanaan.
@@ -328,7 +367,8 @@ th,td{padding:5px 3px}
 </section>
 
 <footer>
- CAB GROUP · FARM MANAGEMENT PRO · FAN, SET POINT & VACCINATION
+ CAB GROUP · FARM MANAGEMENT PRO V4<br>
+ FAN · SET POINT · VACCINATION HISTORY
 </footer>
 </div>
 
@@ -337,27 +377,19 @@ th,td{padding:5px 3px}
 <script>
 
 /* ==========================================
-   1. JADUAL VAKSIN
-   Format:
-   [DAY, WEEK, NAMA VAKSIN, ROUTE, PROGRAM]
+   1. PROGRAM VAKSIN
+   DAY | WEEK | VACCINE | ROUTE | PROGRAM
 
-   AB = Digunakan dalam kedua-dua program
-   A  = Program A sahaja
+   AB = Program A dan B
    B  = Program B sahaja
-
-   Tiada tarikh dan tiada jenama.
 ========================================== */
 
-const vaccineData = [
-
-/* VAKSIN B TAMBAHAN AWAL */
+const vaccineData=[
 
 [3,"0.3","Coccidiosis (L)","Feed Spray","B"],
 [5,"0.5","IB Variant (L)","Eye Drop","B"],
 [5,"0.5","ND+IB (L)","Eye Drop","B"],
 [7,"0.7","IBD (L)","Drinking Water","B"],
-
-/* PROGRAM A DAN B */
 
 [9,"1.2","Reo (L)","Subcutaneous","AB"],
 
@@ -406,12 +438,6 @@ const vaccineData = [
 [147,"21.0","ND + IB + IBD + Reo (K)","Intramuscular","AB"],
 [147,"21.0","Coryza (K)","Intramuscular","AB"],
 
-/* VAKSIN B TAMBAHAN */
-
-[25,"3.4","IBD (L)","Drinking Water","B"],
-
-/* PROGRAM A DAN B - VAKSIN BERULANG */
-
 [175,"25.0","ND + IB (L)","Drinking Water","AB"],
 [203,"29.0","ND + IB (L)","Drinking Water","AB"],
 [231,"33.0","ND + IB (L)","Drinking Water","AB"],
@@ -429,7 +455,7 @@ const vaccineData = [
 
 
 /* ==========================================
-   2. FAN & SET POINT DATA
+   2. FAN & SET POINT
 ========================================== */
 
 const template=[
@@ -479,10 +505,11 @@ const defaultStages=[
 
 
 /* ==========================================
-   3. DATA EMPAT RUMAH & STORAGE
+   3. DATA & STORAGE
 ========================================== */
 
-const DATA_KEY="cabFarmManagerProV3";
+const DATA_KEY="cabFarmManagerProV4";
+const PREVIOUS_KEY="cabFarmManagerProV3";
 const OLD_DATA_KEY="cabFanSettingsV2";
 const OLD_DATE_KEY="cabDocDateV1";
 const OLD_MODE_KEY="cabWeekModeV1";
@@ -500,18 +527,29 @@ function makeHouse(i){
   docDate:"",
   mode:"flock",
   vaccineProgram:"A",
+  vaccineStatus:{},
   rows:makeRows(),
   stages:JSON.parse(JSON.stringify(defaultStages)),
   manualFans:"FAN 2 dan 10"
  };
 }
 
+function normaliseHouse(h,i){
+ h.name=h.name||"Rumah "+(i+1);
+ h.docDate=h.docDate||"";
+ h.mode=h.mode||"flock";
+ h.vaccineProgram=h.vaccineProgram||"A";
+ h.vaccineStatus=h.vaccineStatus||{};
+ h.rows=Array.isArray(h.rows)?h.rows:makeRows();
+ h.stages=Array.isArray(h.stages)?h.stages:JSON.parse(JSON.stringify(defaultStages));
+ h.manualFans=h.manualFans||"FAN 2 dan 10";
+ return h;
+}
+
 function initialHouses(){
  const hs=[1,2,3,4].map(makeHouse);
-
  try{
   const old=JSON.parse(localStorage.getItem(OLD_DATA_KEY)||"null");
-
   if(Array.isArray(old)&&old.length){
    hs[0].rows=old.map(r=>({
     w:r.w,day:r.day||"—",set:r.set,
@@ -519,37 +557,27 @@ function initialHouses(){
     pad:r.pad||"—",alarm:r.alarm||"—",note:r.note||""
    }));
   }
-
   hs[0].docDate=localStorage.getItem(OLD_DATE_KEY)||"";
   hs[0].mode=localStorage.getItem(OLD_MODE_KEY)||"flock";
  }catch(e){}
-
  return hs;
 }
 
 function loadHouses(){
  try{
-  const saved=JSON.parse(localStorage.getItem(DATA_KEY)||"null");
+  let saved=JSON.parse(localStorage.getItem(DATA_KEY)||"null");
+
+  if(!Array.isArray(saved)||saved.length!==4){
+   saved=JSON.parse(localStorage.getItem(PREVIOUS_KEY)||"null");
+  }
 
   if(Array.isArray(saved)&&saved.length===4){
-   saved.forEach((h,i)=>{
-    if(!Array.isArray(h.rows))h.rows=makeRows();
-    if(!Array.isArray(h.stages))h.stages=JSON.parse(JSON.stringify(defaultStages));
-    if(!h.name)h.name="Rumah "+(i+1);
-    if(!h.mode)h.mode="flock";
-    if(!h.vaccineProgram)h.vaccineProgram="A";
-    if(!h.manualFans)h.manualFans="FAN 2 dan 10";
-   });
-   return saved;
+   return saved.map(normaliseHouse);
   }
  }catch(e){}
 
  const fresh=initialHouses();
-
- try{
-  localStorage.setItem(DATA_KEY,JSON.stringify(fresh));
- }catch(e){}
-
+ try{localStorage.setItem(DATA_KEY,JSON.stringify(fresh))}catch(e){}
  return fresh;
 }
 
@@ -577,20 +605,18 @@ function esc(v){
 
 
 /* ==========================================
-   4. PENGIRAAN UMUR AYAM
+   4. PENGIRAAN UMUR
 ========================================== */
 
 function parseDate(s){
  if(!s)return null;
-
  const a=s.split("-").map(Number);
  if(a.length!==3||a.some(Number.isNaN))return null;
 
  const d=new Date(a[0],a[1]-1,a[2],12);
 
  if(d.getFullYear()!==a[0]||
-    d.getMonth()!==a[1]-1||
-    d.getDate()!==a[2])return null;
+ d.getMonth()!==a[1]-1||d.getDate()!==a[2])return null;
 
  return d;
 }
@@ -603,7 +629,6 @@ function fmt(d){
 
 function ageInfo(h){
  const start=parseDate(h.docDate);
-
  if(!start)return {valid:false,text:"DOC belum ditetapkan"};
 
  const now=new Date();
@@ -629,14 +654,10 @@ function weekDateFor(h,w){
  if(!start)return null;
 
  let offset=(w-1)*7;
-
- if(h.mode==="calendar"){
-  offset+=(7-start.getDay())%7;
- }
+ if(h.mode==="calendar")offset+=(7-start.getDay())%7;
 
  const d=new Date(start);
  d.setDate(d.getDate()+offset);
-
  return d;
 }
 
@@ -647,21 +668,25 @@ function rowForWeek(h,w){
 
 
 /* ==========================================
-   5. SISTEM VAKSIN
+   5. VAKSIN & STATUS PELAKSANAAN
 ========================================== */
 
 function getVaccines(h){
  return vaccineData
-  .filter(v=>
-   v[4]==="AB"||v[4]===h.vaccineProgram
-  )
-  .map(v=>({
-   day:v[0],
-   week:v[1],
-   name:v[2],
-   route:v[3]
-  }))
-  .sort((a,b)=>a.day-b.day);
+ .map((v,id)=>({...{
+  id,
+  day:v[0],
+  week:v[1],
+  name:v[2],
+  route:v[3],
+  program:v[4]
+ }}))
+ .filter(v=>v.program==="AB"||v.program===h.vaccineProgram)
+ .sort((a,b)=>a.day-b.day);
+}
+
+function isCompleted(h,v){
+ return h.vaccineStatus[String(v.id)]===true;
 }
 
 function vaccinesForDay(h,day){
@@ -677,23 +702,62 @@ function vaccineStatus(v,day){
  return v.day<day?"past":"future";
 }
 
-function vaxCard(v,status){
+/* Tandakan vaksin sudah / belum dilaksanakan */
+function toggleVaccine(id){
+ const h=house();
+ const key=String(id);
+
+ h.vaccineStatus[key]=!h.vaccineStatus[key];
+
+ if(saveAll()){
+  renderAll();
+  showTab("vaccine");
+ }
+}
+
+/* Kad vaksin lengkap dengan butang status */
+function vaxCard(h,v,status){
+ const completed=isCompleted(h,v);
+
  const cls=status==="today"?"today":
   status==="past"?"past":"upcoming";
 
- const label=status==="today"?"HARI INI":
-  status==="past"?"SUDAH BERLALU":"AKAN DATANG";
+ let label=status==="today"?"JADUAL HARI INI":
+  status==="past"?"VAKSIN TERDAHULU":"AKAN DATANG";
+
+ if(completed)label="SUDAH DILAKSANAKAN";
 
  return `
  <div class="vax-item ${cls}">
   <div class="vax-status">
    ${label} · DAY ${v.day} · WEEK ${v.week}
   </div>
+
   <h4>${esc(v.name)}</h4>
+
   <p><b>Route:</b> ${esc(v.route)}</p>
+
+  ${status!=="future"?`
+   <div class="vax-action">
+    <span class="hint" style="margin:0">
+     ${completed?"✓ Status disahkan":"Belum disahkan"}
+    </span>
+
+    <button class="done-btn ${completed?"completed":""}"
+     onclick="toggleVaccine(${v.id})">
+     ${completed?"✓ Sudah Dilaksanakan":"＋ Tandakan Sudah"}
+    </button>
+   </div>
+  `:""}
+
  </div>
  `;
 }
+
+
+/* ==========================================
+   6. PAPARAN PROGRAM VAKSIN
+========================================== */
 
 function renderVaccine(){
  const h=house();
@@ -707,48 +771,70 @@ function renderVaccine(){
   h.name+" · Program "+h.vaccineProgram;
 
  const today=document.getElementById("todayVaccines");
+ const past=document.getElementById("pastVaccines");
  const next=document.getElementById("nextVaccines");
  const summary=document.getElementById("vaxSummary");
 
  if(!age.valid){
-  today.innerHTML="<p>Masukkan tarikh DOC untuk melihat vaksin mengikut umur.</p>";
-  next.innerHTML="<p>Umur ayam belum tersedia.</p>";
-  summary.innerHTML="<p>"+esc(age.text)+"</p>";
+  today.innerHTML='<div class="empty">Masukkan tarikh DOC untuk melihat vaksin mengikut umur.</div>';
+  past.innerHTML='<div class="empty">Umur ayam belum tersedia.</div>';
+  next.innerHTML='<div class="empty">Umur ayam belum tersedia.</div>';
+  summary.innerHTML='<p>'+esc(age.text)+'</p>';
   document.getElementById("vaccineList").innerHTML="";
+  document.getElementById("historyCount").textContent="0 rekod";
   return;
  }
 
  const day=age.dayNumber;
+
+ /* VAKSIN HARI INI */
  const due=vaccinesForDay(h,day);
- const upcoming=nextVaccineDay(h,day);
 
  today.innerHTML=due.length
-  ?due.map(v=>vaxCard(v,"today")).join("")
-  :`<p>Tiada vaksin dijadualkan tepat pada Day ${day} (Week ${age.week}).</p>`;
+  ?due.map(v=>vaxCard(h,v,"today")).join("")
+  :`<div class="empty">Tiada vaksin dijadualkan tepat pada Day ${day} (Week ${age.week}).</div>`;
+
+ /* SEJARAH VAKSIN TERDAHULU */
+ const previous=list.filter(v=>v.day<day);
+ const doneCount=previous.filter(v=>isCompleted(h,v)).length;
+ const pendingCount=previous.length-doneCount;
+
+ document.getElementById("historyCount").textContent=
+  previous.length+" rekod";
+
+ past.innerHTML=previous.length
+  ?previous.map(v=>vaxCard(h,v,"past")).join("")
+  :'<div class="empty">Belum ada vaksin terdahulu dalam jadual.</div>';
+
+ /* VAKSIN SETERUSNYA */
+ const upcoming=nextVaccineDay(h,day);
 
  next.innerHTML=upcoming
-  ?vaxCard(upcoming,"future")
-  :"<p>Tiada rekod vaksin akan datang dalam jadual.</p>";
+  ?vaxCard(h,upcoming,"future")
+  :'<div class="empty">Tiada rekod vaksin akan datang.</div>';
 
- const completed=list.filter(v=>v.day<day).length;
- const remaining=list.filter(v=>v.day>=day).length;
+ /* RINGKASAN */
+ const completedTotal=list.filter(v=>isCompleted(h,v)).length;
 
  summary.innerHTML=`
   <p><b>Program:</b> ${h.vaccineProgram}</p>
   <p><b>Jumlah rekod:</b> ${list.length}</p>
-  <p><b>Rekod berlalu:</b> ${completed}</p>
-  <p><b>Rekod belum tiba:</b> ${remaining}</p>
-  <p><b>Umur:</b> Day ${day} / Week ${age.week}</p>
+  <p><b>Umur ayam:</b> Day ${day} / Week ${age.week}</p>
+  <p><b>Sejarah terdahulu:</b> ${previous.length}</p>
+  <p><b>Sudah dilaksanakan:</b> ${doneCount}</p>
+  <p><b>Belum disahkan:</b> ${pendingCount}</p>
+  <p><b>Jumlah selesai keseluruhan:</b> ${completedTotal}</p>
  `;
 
  renderVaccineList();
 }
 
+/* Penapis sejarah dan jadual lengkap */
 function setVaxFilter(value,button){
  vaxFilter=value;
 
  document.querySelectorAll(".vax-filter button")
-  .forEach(b=>b.classList.remove("active"));
+ .forEach(b=>b.classList.remove("active"));
 
  button.classList.add("active");
  renderVaccineList();
@@ -774,14 +860,19 @@ function renderVaccineList(){
    (vaxFilter==="future"&&status==="future");
  });
 
- document.getElementById("vaccineList").innerHTML=list.length
-  ?list.map(v=>vaxCard(v,vaccineStatus(v,day))).join("")
-  :'<p class="hint">Tiada rekod untuk pilihan ini.</p>';
+ if(!list.length){
+  document.getElementById("vaccineList").innerHTML=
+   '<div class="empty">Tiada rekod untuk pilihan ini.</div>';
+  return;
+ }
+
+ document.getElementById("vaccineList").innerHTML=
+ list.map(v=>vaxCard(h,v,vaccineStatus(v,day))).join("");
 }
 
 
 /* ==========================================
-   6. DASHBOARD EMPAT RUMAH
+   7. DASHBOARD EMPAT RUMAH
 ========================================== */
 
 function renderHouses(){
@@ -804,6 +895,9 @@ function renderHouses(){
 function selectHouse(i){
  selected=i;
  vaxFilter="all";
+ document.querySelectorAll(".vax-filter button").forEach((b,j)=>{
+  b.classList.toggle("active",j===0);
+ });
  renderAll();
 }
 
@@ -820,6 +914,8 @@ function renderDashboard(){
   const vaccines=a.valid
    ?vaccinesForDay(h,a.dayNumber):[];
 
+  const completed=getVaccines(h).filter(v=>isCompleted(h,v)).length;
+
   return `
   <article class="dash-card ${i===selected?"selected":""}">
    <h3>🏠 ${esc(h.name)}</h3>
@@ -832,22 +928,10 @@ function renderDashboard(){
    </div>
 
    <div class="metrics">
-    <div class="metric">
-     <small>SET POINT</small>
-     <strong>${r?r.set+"°C":"—"}</strong>
-    </div>
-    <div class="metric">
-     <small>COOLING PAD</small>
-     <strong>${r?esc(r.pad):"—"}</strong>
-    </div>
-    <div class="metric">
-     <small>PROGRAM VAKSIN</small>
-     <strong>Program ${h.vaccineProgram}</strong>
-    </div>
-    <div class="metric">
-     <small>VAKSIN HARI INI</small>
-     <strong>${vaccines.length} rekod</strong>
-    </div>
+    <div class="metric"><small>SET POINT</small><strong>${r?r.set+"°C":"—"}</strong></div>
+    <div class="metric"><small>COOLING PAD</small><strong>${r?esc(r.pad):"—"}</strong></div>
+    <div class="metric"><small>PROGRAM VAKSIN</small><strong>Program ${h.vaccineProgram}</strong></div>
+    <div class="metric"><small>VAKSIN SELESAI</small><strong>${completed} rekod</strong></div>
    </div>
 
    <button class="btn ${i===selected?"primary":"secondary"}"
@@ -862,14 +946,13 @@ function renderDashboard(){
 function openHouse(i){
  selected=i;
  renderAll();
-
  document.getElementById("houseSettings")
-  .scrollIntoView({behavior:"smooth"});
+ .scrollIntoView({behavior:"smooth"});
 }
 
 
 /* ==========================================
-   7. TETAPAN RUMAH
+   8. TETAPAN RUMAH
 ========================================== */
 
 function renderSettings(){
@@ -902,16 +985,12 @@ function renderCurrentAge(){
   return;
  }
 
- el.textContent=
-  Math.floor(a.totalDays/7)+" minggu "+a.totalDays%7+" hari";
-
- detail.textContent=
-  "Day "+a.dayNumber+" sejak DOC masuk · Minggu rekod "+a.week;
+ el.textContent=Math.floor(a.totalDays/7)+" minggu "+a.totalDays%7+" hari";
+ detail.textContent="Day "+a.dayNumber+" sejak DOC masuk · Minggu rekod "+a.week;
 }
 
 function saveHouseSettings(){
  const h=house();
-
  const name=document.getElementById("houseName").value.trim();
  const date=document.getElementById("docDate").value;
 
@@ -934,22 +1013,16 @@ function renderStats(){
  const a=ageInfo(h);
  const r=a.valid?rowForWeek(h,a.week):null;
 
- document.getElementById("statWeek").textContent=
-  a.valid?"W"+a.week:"—";
-
- document.getElementById("statSet").textContent=
-  r?r.set+"°C":"—";
-
- document.getElementById("statPad").textContent=
-  r?r.pad:"—";
-
+ document.getElementById("statWeek").textContent=a.valid?"W"+a.week:"—";
+ document.getElementById("statSet").textContent=r?r.set+"°C":"—";
+ document.getElementById("statPad").textContent=r?r.pad:"—";
  document.getElementById("statVax").textContent=
   a.valid?vaccinesForDay(h,a.dayNumber).length:"—";
 }
 
 
 /* ==========================================
-   8. JADUAL FAN
+   9. JADUAL FAN
 ========================================== */
 
 function renderTable(){
@@ -958,10 +1031,8 @@ function renderTable(){
  document.getElementById("tableBody").innerHTML=
  h.rows.map(r=>`
  <tr>
-  <td>
-   <b style="color:var(--green)">W${r.w}</b><br>
-   <small>${fmt(weekDateFor(h,r.w))}</small>
-  </td>
+  <td><b style="color:var(--green)">W${r.w}</b><br>
+  <small>${fmt(weekDateFor(h,r.w))}</small></td>
   <td>${esc(r.day)}</td>
   <td><span class="pill">${esc(r.set)}°C</span></td>
   <td>${esc(r.manual)}</td>
@@ -975,14 +1046,13 @@ function renderTable(){
 
 
 /* ==========================================
-   9. FAN STAGE
+   10. FAN STAGE
 ========================================== */
 
 function renderStages(){
  const h=house();
 
- document.getElementById("stageHeading").textContent=
-  "Fan Stage — "+h.name;
+ document.getElementById("stageHeading").textContent="Fan Stage — "+h.name;
 
  document.getElementById("stageList").innerHTML=
  h.stages.map(s=>`
@@ -992,18 +1062,17 @@ function renderStages(){
   </div>`).join("");
 
  document.getElementById("manualStageNote").textContent=
-  "Fan Manual: "+h.manualFans;
+ "Fan Manual: "+h.manualFans;
 }
 
 
 /* ==========================================
-   10. TAB NAVIGATION
+   11. TAB NAVIGATION
 ========================================== */
 
 function showTab(tab){
  ["table","vaccine","stages","notes"].forEach(p=>{
-  document.getElementById("page-"+p)
-   .classList.toggle("hidden",p!==tab);
+  document.getElementById("page-"+p).classList.toggle("hidden",p!==tab);
  });
 
  document.querySelectorAll("[data-tab]").forEach(b=>{
@@ -1015,19 +1084,11 @@ document.querySelectorAll("[data-tab]").forEach(b=>{
  b.addEventListener("click",()=>showTab(b.dataset.tab));
 });
 
-
-/* ==========================================
-   11. LIVE UPDATE TARIKH DOC
-========================================== */
-
-document.getElementById("docDate")
- .addEventListener("change",function(){
-  const original=house().docDate;
-
-  house().docDate=this.value;
-  renderCurrentAge();
-
-  house().docDate=original;
+document.getElementById("docDate").addEventListener("change",function(){
+ const original=house().docDate;
+ house().docDate=this.value;
+ renderCurrentAge();
+ house().docDate=original;
 });
 
 
@@ -1039,63 +1100,49 @@ function editWeek(w){
  const h=house();
 
  const r=w?h.rows.find(x=>x.w===w):{
-  w:1,day:"—",set:28,
-  manual:"—",auto:"—",pad:"—",
-  alarm:"—",note:""
+  w:1,day:"—",set:28,manual:"—",
+  auto:"—",pad:"—",alarm:"—",note:""
  };
 
  document.getElementById("modalRoot").innerHTML=`
  <div class="modal">
   <div class="modal-box">
    <h2>Edit ${esc(h.name)} — Week ${w||"baharu"}</h2>
-
    <form id="weekForm" onsubmit="saveWeek(event)">
     <div class="fields" style="grid-template-columns:1fr 1fr">
-
      <div class="field">
       <label>Minggu</label>
-      <input name="w" type="number" min="1" max="32"
-       required value="${r.w}" ${w?"readonly":""}>
+      <input name="w" type="number" min="1" max="32" required value="${r.w}" ${w?"readonly":""}>
      </div>
-
      <div class="field">
       <label>Hari / Julat</label>
       <input name="day" value="${esc(r.day)}">
      </div>
-
      <div class="field">
       <label>Set Point</label>
-      <input name="set" type="number" step=".5"
-       required value="${r.set}">
+      <input name="set" type="number" step=".5" required value="${r.set}">
      </div>
-
      <div class="field">
       <label>Fan Manual</label>
       <input name="manual" value="${esc(r.manual)}">
      </div>
-
      <div class="field">
       <label>Fan Auto</label>
       <input name="auto" value="${esc(r.auto)}">
      </div>
-
      <div class="field">
       <label>Cooling Pad</label>
       <input name="pad" value="${esc(r.pad)}">
      </div>
-
      <div class="field">
       <label>Alarm</label>
       <input name="alarm" value="${esc(r.alarm)}">
      </div>
-
      <div class="field">
       <label>Nota</label>
       <input name="note" value="${esc(r.note)}">
      </div>
-
     </div>
-
     <div class="actions" style="margin-top:15px">
      <button type="button" class="btn" onclick="closeModal()">Batal</button>
      <button class="btn primary">Simpan</button>
@@ -1107,7 +1154,6 @@ function editWeek(w){
 
 function saveWeek(e){
  e.preventDefault();
-
  const f=new FormData(e.target);
  const h=house();
  const w=Number(f.get("w"));
@@ -1115,8 +1161,7 @@ function saveWeek(e){
  if(w<1||w>32)return alert("Minggu mesti 1 hingga 32.");
 
  const r={
-  w,
-  day:f.get("day")||"—",
+  w,day:f.get("day")||"—",
   set:Number(f.get("set")),
   manual:f.get("manual")||"—",
   auto:f.get("auto")||"—",
@@ -1126,7 +1171,6 @@ function saveWeek(e){
  };
 
  const i=h.rows.findIndex(x=>x.w===w);
-
  if(i>=0)h.rows[i]=r;
  else h.rows.push(r);
 
@@ -1145,36 +1189,31 @@ function saveWeek(e){
 
 function editStages(){
  const h=house();
-
  let html=`
  <div class="modal">
   <div class="modal-box">
    <h2>Fan Stage — ${esc(h.name)}</h2>
-
    <form id="stageForm" onsubmit="saveStages(event)">
-    <div class="fields" style="grid-template-columns:1fr 1fr">
- `;
+    <div class="fields" style="grid-template-columns:1fr 1fr">`;
 
  h.stages.forEach((s,i)=>{
   html+=`
    <div class="field">
     <label>Stage ${i+1}</label>
     <input name="stage${i}" value="${esc(s.fans)}">
-   </div>
-  `;
+   </div>`;
  });
 
  html+=`
-   <div class="field" style="grid-column:1/-1">
-    <label>Fan Manual</label>
-    <input name="manualFans" value="${esc(h.manualFans)}">
-   </div>
-   </div>
-
-   <div class="actions" style="margin-top:15px">
-    <button type="button" class="btn" onclick="closeModal()">Batal</button>
-    <button class="btn primary">Simpan</button>
-   </div>
+    <div class="field" style="grid-column:1/-1">
+     <label>Fan Manual</label>
+     <input name="manualFans" value="${esc(h.manualFans)}">
+    </div>
+    </div>
+    <div class="actions" style="margin-top:15px">
+     <button type="button" class="btn" onclick="closeModal()">Batal</button>
+     <button class="btn primary">Simpan</button>
+    </div>
    </form>
   </div>
  </div>`;
@@ -1184,13 +1223,11 @@ function editStages(){
 
 function saveStages(e){
  e.preventDefault();
-
  const f=new FormData(e.target);
  const h=house();
 
  h.stages=h.stages.map((s,i)=>({
-  ...s,
-  fans:f.get("stage"+i)||"—"
+  ...s,fans:f.get("stage"+i)||"—"
  }));
 
  h.manualFans=f.get("manualFans")||"—";
@@ -1208,36 +1245,38 @@ function closeModal(){
 
 
 /* ==========================================
-   14. EKSPORT CSV
+   14. EXPORT CSV
 ========================================== */
 
 function exportCSV(){
  const h=house();
  const age=ageInfo(h);
 
+ const vaccineRows=getVaccines(h).map(v=>[
+  v.day,
+  v.week,
+  v.name,
+  v.route,
+  isCompleted(h,v)?"Sudah dilaksanakan":"Belum disahkan"
+ ]);
+
  const rows=[
-  ["CAB FARM MANAGEMENT"],
+  ["CAB FARM MANAGEMENT PRO V4"],
   ["Rumah",h.name],
   ["Tarikh DOC",h.docDate],
   ["Program Vaksin",h.vaccineProgram],
   ["Umur Semasa",age.valid?"Day "+age.dayNumber:"Belum ditetapkan"],
   [],
   ["JADUAL FAN & SET POINT"],
-  ["MINGGU","TARIKH","HARI","SET POINT",
-   "FAN MANUAL","FAN AUTO","COOLING PAD","ALARM","NOTA"],
-
+  ["MINGGU","TARIKH","HARI","SET POINT","FAN MANUAL","FAN AUTO","COOLING PAD","ALARM","NOTA"],
   ...h.rows.map(r=>[
    r.w,fmt(weekDateFor(h,r.w)),r.day,r.set,
    r.manual,r.auto,r.pad,r.alarm,r.note
   ]),
-
   [],
-  ["JADUAL VAKSIN"],
-  ["DAY","WEEK","VAKSIN","ROUTE"],
-
-  ...getVaccines(h).map(v=>[
-   v.day,v.week,v.name,v.route
-  ])
+  ["JADUAL VAKSIN DAN STATUS"],
+  ["DAY","WEEK","VAKSIN","ROUTE","STATUS"],
+  ...vaccineRows
  ];
 
  const csv=rows.map(row=>
