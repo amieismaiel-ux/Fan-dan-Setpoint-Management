@@ -5,128 +5,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10251e">
-<meta name="description" content="Dashboard pengurusan empat rumah ayam CAB">
-<title>CAB | Four House Fan Manager</title>
-
+<meta name="description" content="CAB Farm Management Pro">
+<title>CAB | Farm Management Pro</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ventilation monitoring">
 
 <style>
 :root{
---bg:#f3f6f4;--white:#fff;--ink:#172820;--muted:#77857c;
---green:#176b4b;--bright:#239565;--line:#e3eae5;
---dark:#10251e;--orange:#fff1d9
+--bg:#f3f6f4;--white:#fff;--ink:#172820;
+--muted:#77857c;--green:#176b4b;--bright:#239565;
+--line:#e3eae5;--dark:#10251e;--orange:#fff1d9;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
 button,input,select{font:inherit}
 button{cursor:pointer}
-.app{max-width:1400px;margin:auto;padding:16px}
-.hero{background:linear-gradient(130deg,#10251e,#176b4b);color:white;padding:25px;border-radius:24px;position:relative;overflow:hidden}
-.hero:after{content:"CAB";position:absolute;right:10px;bottom:-25px;font-size:100px;font-weight:900;color:#ffffff0b;pointer-events:none}
-.brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
-.logo{display:grid;place-items:center;width:50px;height:50px;border-radius:15px;background:#ffffff1c;border:1px solid #ffffff35;font-size:22px;font-weight:900}
+.app{max-width:1450px;margin:auto;padding:15px}
+.hero{background:linear-gradient(130deg,#10251e,#176b4b);color:white;padding:24px;border-radius:22px;margin-bottom:15px}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{display:grid;place-items:center;width:50px;height:50px;border-radius:14px;background:#ffffff20;font-size:22px;font-weight:900}
 .brand small{letter-spacing:2px;color:#c1dfce;font-size:10px}
 h1{font-size:21px;margin:6px 0}
-.hero p{font-size:13px;line-height:1.7;color:#d5e6dc}
-.actions{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
+.hero p{font-size:12px;color:#d5e6dc;line-height:1.7}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
 .btn{border:1px solid var(--line);border-radius:10px;background:white;padding:11px 14px;font-size:12px;font-weight:700;color:var(--ink)}
 .btn.primary{background:var(--bright);color:white;border-color:var(--bright)}
 .btn.dark{background:#ffffff18;color:white;border-color:#ffffff45}
-.house-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:17px 0}
-.house-btn{border:1px solid var(--line);background:white;border-radius:15px;padding:15px 12px;text-align:left;color:var(--ink);min-width:0}
-.house-btn.active{background:#e5f4e9;border:2px solid var(--green);padding:14px 11px}
-.house-btn strong{display:block;font-size:14px;margin-bottom:7px;overflow-wrap:anywhere}
-.house-btn span{font-size:10px;color:var(--muted);line-height:1.6}
-.house-btn.active strong{color:var(--green)}
-.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;min-width:0}
+.btn.secondary{background:#f2f7f3;color:var(--green)}
+.house-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
+.house-btn{border:1px solid var(--line);background:white;border-radius:14px;padding:14px;text-align:left;color:var(--ink);min-width:0}
+.house-btn.active{background:#e5f4e9;border:2px solid var(--green);padding:13px}
+.house-btn strong{display:block;font-size:14px;margin-bottom:7px}
+.house-btn span{font-size:10px;color:var(--muted);line-height:1.7}
+.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:17px;margin-bottom:15px}
 .panel-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px}
 .panel-head h2{font-size:17px;margin:0 0 5px}
-.panel-head p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+.panel-head p{font-size:11px;color:var(--muted);margin:0;line-height:1.6}
 .fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field label{font-size:11px;font-weight:700;color:#627368}
 input,select{width:100%;min-width:0;padding:12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}
-.hint{font-size:11px;line-height:1.7;color:var(--muted);margin-top:12px}
-.preview{margin-top:12px;color:var(--green);font-size:12px;font-weight:700;line-height:1.7}
-
-/* PAPARAN UMUR AYAM DI BAWAH TARIKH DOC */
-.age-display{
- margin-top:10px;padding:15px;
- background:linear-gradient(135deg,#e8f6ed,#f5fbf6);
- border:1px solid #d5eadb;border-radius:13px;
-}
-.age-display label{
- display:block;font-size:10px;font-weight:800;
- color:#627368;letter-spacing:.5px
-}
-.age-display strong{
- display:block;margin:7px 0;font-size:25px;color:#176b4b;
- overflow-wrap:anywhere
-}
+.age-display{margin-top:8px;padding:13px;background:#e8f6ed;border:1px solid #d5eadb;border-radius:12px}
+.age-display label{font-size:10px;font-weight:800;color:#627368}
+.age-display strong{display:block;margin:7px 0;font-size:24px;color:var(--green)}
 .age-display span{font-size:11px;color:#627368;line-height:1.7}
-
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:16px}
-.stat{background:white;border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}
+.hint{font-size:11px;line-height:1.7;color:var(--muted);margin-top:11px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
+.stat{background:white;border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
 .stat label{font-size:10px;font-weight:700;color:var(--muted)}
-.stat strong{display:block;font-size:25px;margin:12px 0 5px;overflow-wrap:anywhere}
+.stat strong{display:block;font-size:23px;margin:10px 0 5px;overflow-wrap:anywhere}
 .stat small{font-size:10px;color:var(--muted)}
-.tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:13px}
+.tabs{display:flex;gap:7px;overflow-x:auto;margin-bottom:12px}
 .tab{white-space:nowrap;background:white;border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:12px;font-weight:700}
 .tab.active{background:#e5f4e9;border-color:#b7dcc3;color:var(--green)}
-.searchrow{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}
-.searchrow input{flex:1;min-width:170px}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px}
 table{width:100%;min-width:850px;border-collapse:collapse;font-size:12px}
 thead{background:#f0f5f1}
-th,td{padding:12px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th,td{padding:11px 9px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
 th{font-size:10px;color:#5c6c61;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:#f8fbf8}
 .pill{display:inline-block;background:#e5f4e9;color:var(--green);border-radius:7px;padding:5px 8px;font-size:10px;font-weight:800}
 .pill.warn{background:var(--orange);color:#945d10}
-.mini{border:1px solid #d9e9de;background:white;color:var(--green);border-radius:8px;padding:7px 9px;font-size:10px;font-weight:700}
+.pill.blue{background:#e8f0ff;color:#315c9b}
+.note{background:#fff7e8;border:1px solid #f1dfb9;border-radius:11px;padding:13px;color:#79520f;font-size:11px;line-height:1.7;margin:12px 0}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.stagecard{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.stagecard{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;justify-content:space-between;gap:10px}
 .stagecard strong{font-size:12px}
-.stagecard span{font-size:12px;color:var(--green);font-weight:700;text-align:right}
-.note{background:#fff7e8;border:1px solid #f1dfb9;border-radius:12px;padding:13px;color:#79520f;font-size:11px;line-height:1.7;margin:12px 0}
+.stagecard span{font-size:12px;color:var(--green);font-weight:700}
+.dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dash-card{background:white;border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}
+.dash-card.selected{border:2px solid var(--green);padding:14px}
+.dash-card h3{font-size:14px;margin:0 0 5px}
+.dash-card p{font-size:11px;color:var(--muted)}
+.dash-age{background:#f1f7f2;border-radius:11px;padding:12px;margin:12px 0}
+.dash-age strong{display:block;font-size:22px;color:var(--green);margin:7px 0}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.metric{border:1px solid var(--line);border-radius:9px;padding:9px;min-width:0}
+.metric small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
+.metric strong{font-size:12px;overflow-wrap:anywhere}
+.vax-highlight{border:1px solid #cfe5d5;background:#f4fbf5;border-radius:12px;padding:13px;margin-bottom:12px}
+.vax-highlight h3{font-size:13px;margin:0 0 9px;color:var(--green)}
+.vax-item{border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:8px}
+.vax-item h4{font-size:13px;margin:7px 0}
+.vax-item p{font-size:11px;color:#627368;margin:4px 0;line-height:1.6}
+.vax-item.today{border:2px solid var(--green);background:#f5fbf6}
+.vax-item.past{opacity:.8}
+.vax-item.upcoming{border-left:4px solid #dba43a}
+.vax-status{font-size:10px;font-weight:800;color:var(--green)}
+.vax-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.vax-filter button{border:1px solid var(--line);background:white;padding:9px 12px;border-radius:9px;font-size:11px;font-weight:700}
+.vax-filter button.active{background:#e5f4e9;color:var(--green)}
 .hidden{display:none!important}
-.house-dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.dash-card{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;min-width:0}
-.dash-card.selected{border:2px solid var(--green);padding:16px;background:#fcfffc}
-.dash-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.dash-top h3{margin:0 0 5px;font-size:15px;overflow-wrap:anywhere}
-.dash-top p{margin:0;color:var(--muted);font-size:11px;line-height:1.6}
-.house-icon{display:grid;place-items:center;width:42px;height:42px;background:#e7f5eb;border-radius:12px;font-size:21px;flex-shrink:0}
-.age-box{background:#f3f7f4;border-radius:12px;padding:12px;margin:14px 0}
-.age-box small{font-size:10px;color:var(--muted);font-weight:700}
-.age-box strong{display:block;font-size:24px;color:var(--green);margin:5px 0;overflow-wrap:anywhere}
-.age-box span{font-size:11px;color:var(--muted);line-height:1.6}
-.dash-metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.metric{border:1px solid var(--line);border-radius:10px;padding:10px;min-width:0}
-.metric small{display:block;font-size:9px;color:var(--muted);font-weight:700;margin-bottom:7px}
-.metric strong{display:block;font-size:13px;overflow-wrap:anywhere;line-height:1.5}
-.dash-card .btn{width:100%;margin-top:13px}
-.btn.secondary{background:#f2f7f3;border-color:#d9e9de;color:var(--green)}
-footer{font-size:10px;color:var(--muted);padding:15px 3px;line-height:1.7}
+.modal{position:fixed;inset:0;background:#07140fc9;z-index:100;display:grid;place-items:center;padding:12px}
+.modal-box{background:white;border-radius:17px;padding:20px;width:100%;max-width:560px;max-height:90vh;overflow:auto}
+.modal-box h2{font-size:18px;margin-top:0}
+footer{font-size:10px;color:var(--muted);padding:12px;line-height:1.7}
 @media(max-width:760px){
- .app{padding:11px}.hero{padding:19px}.brand h1{font-size:18px}
- .house-picker{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .house-btn{padding:12px}.house-btn.active{padding:11px}
- .fields{grid-template-columns:1fr}
- .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .stat{padding:12px}.stat strong{font-size:22px}
- .panel{padding:13px}.grid2,.house-dashboard{grid-template-columns:1fr}
- .dash-card{padding:14px}.dash-card.selected{padding:13px}
+.app{padding:10px}.hero{padding:18px}
+.house-picker{grid-template-columns:repeat(2,1fr)}
+.fields{grid-template-columns:1fr}
+.stats{grid-template-columns:repeat(2,1fr)}
+.grid2,.dash-grid{grid-template-columns:1fr}
+.panel{padding:13px}
 }
 @media print{
- .actions,.house-picker,.tabs,.searchrow,.btn,.mini{display:none!important}
- body{background:white}.app{padding:0}.panel,.dash-card{break-inside:avoid}
- .tablewrap{overflow:visible}table{min-width:0;font-size:8px}
- th,td{padding:5px 3px}
+.actions,.house-picker,.tabs,.vax-filter,.btn{display:none!important}
+body{background:white}.tablewrap{overflow:visible}
+table{min-width:0;font-size:8px}
+th,td{padding:5px 3px}
 }
 </style>
 </head>
@@ -139,10 +125,10 @@ footer{font-size:10px;color:var(--muted);padding:15px 3px;line-height:1.7}
   <div class="logo">CAB</div>
   <div>
    <small>BREEDING FARM MANAGEMENT</small>
-   <h1>FAN & SET POINT MANAGER</h1>
+   <h1>FAN, SET POINT & VACCINE MANAGER</h1>
   </div>
  </div>
- <p>Dashboard perbandingan 4 rumah ayam. Semak umur, suhu sasaran, cooling pad dan Fan Stage dalam satu paparan.</p>
+ <p>Sistem pengurusan empat rumah ayam. Pantau umur, ventilasi, suhu dan program vaksinasi dalam satu dashboard.</p>
  <div class="actions">
   <button class="btn primary" onclick="editWeek()">＋ Edit Rekod Minggu</button>
   <button class="btn dark" onclick="editStages()">🌀 Edit Fan Stage</button>
@@ -153,23 +139,22 @@ footer{font-size:10px;color:var(--muted);padding:15px 3px;line-height:1.7}
 
 <section class="house-picker" id="housePicker"></section>
 
-<section class="panel" id="dashboard">
+<section class="panel">
  <div class="panel-head">
   <div>
-   <h2>📊 Dashboard 4 Rumah</h2>
-   <p>Perbandingan umur dan tetapan setiap rumah.</p>
+   <h2>📊 Dashboard Empat Rumah</h2>
+   <p>Ringkasan umur, tetapan kipas dan program vaksin.</p>
   </div>
   <span class="pill">4 RUMAH</span>
  </div>
- <div class="house-dashboard" id="dashboardCards"></div>
- <div class="hint">Umur dikira berdasarkan tarikh DOC dan tarikh semasa. Nilai kipas ialah rujukan jadual, bukan bacaan langsung controller.</div>
+ <div class="dash-grid" id="dashboardCards"></div>
 </section>
 
 <section class="panel" id="houseSettings">
  <div class="panel-head">
   <div>
-   <h2 id="houseHeading">Rumah 1</h2>
-   <p>Tetapan musim dan jadual khusus rumah yang dipilih.</p>
+   <h2 id="houseHeading">Tetapan Rumah</h2>
+   <p>Maklumat DOC dan pilihan program vaksin rumah ini.</p>
   </div>
   <span class="pill" id="houseBadge">RUMAH 1</span>
  </div>
@@ -179,19 +164,19 @@ footer{font-size:10px;color:var(--muted);padding:15px 3px;line-height:1.7}
    <label>Nama Rumah</label>
    <input id="houseName" placeholder="Contoh: Gurun Farm 1">
   </div>
+
   <div class="field">
    <label>Tarikh DOC Masuk</label>
    <input type="date" id="docDate">
-   
-   <!-- UMUR AYAM AUTOMATIK DI BAWAH TARIKH DOC -->
    <div class="age-display">
     <label>🐣 UMUR AYAM SEKARANG</label>
     <strong id="currentAge">Belum ditetapkan</strong>
-    <span id="currentAgeDetail">Masukkan tarikh DOC untuk mengira umur ayam.</span>
+    <span id="currentAgeDetail">Masukkan tarikh DOC.</span>
    </div>
   </div>
+
   <div class="field">
-   <label>Kaedah Pengiraan</label>
+   <label>Kaedah Pengiraan Minggu</label>
    <select id="weekMode">
     <option value="flock">Setiap 7 hari dari DOC</option>
     <option value="calendar">Minggu kalendar Ahad–Sabtu</option>
@@ -199,87 +184,253 @@ footer{font-size:10px;color:var(--muted);padding:15px 3px;line-height:1.7}
   </div>
  </div>
 
+ <div class="field" style="margin-top:15px">
+  <label>💉 PROGRAM VAKSINASI RUMAH INI</label>
+  <select id="vaccineProgram">
+   <option value="A">PROGRAM A — Jadual asal</option>
+   <option value="B">PROGRAM B — Jadual tambahan</option>
+  </select>
+  <div class="hint">Setiap rumah boleh memilih Program A atau Program B secara berasingan.</div>
+ </div>
+
  <div class="actions" style="margin-top:13px">
   <button class="btn primary" onclick="saveHouseSettings()">Simpan Tetapan Rumah</button>
  </div>
- <div class="preview" id="datePreview"></div>
- <div class="hint">Setiap rumah mempunyai tarikh DOC sendiri. Menukar tarikh DOC tidak mengubah jadual kipas atau suhu. Pastikan tarikh yang betul sebelum menyimpan.</div>
+ <div class="hint" id="datePreview"></div>
 </section>
 
 <section class="stats">
- <div class="stat"><label>UMUR MINGGU SEMASA</label><strong id="statWeek">—</strong><small>Rumah dipilih</small></div>
- <div class="stat"><label>SET POINT SEMASA</label><strong id="statSet">—</strong><small>Mengikut minggu semasa</small></div>
- <div class="stat"><label>COOLING PAD</label><strong id="statPad">—</strong><small>Mengikut minggu semasa</small></div>
- <div class="stat"><label>REKOD ALARM</label><strong id="statAlarm">0</strong><small>Rumah dipilih</small></div>
+ <div class="stat">
+  <label>UMUR MINGGU</label>
+  <strong id="statWeek">—</strong>
+  <small>Rumah dipilih</small>
+ </div>
+ <div class="stat">
+  <label>SET POINT</label>
+  <strong id="statSet">—</strong>
+  <small>Suhu sasaran</small>
+ </div>
+ <div class="stat">
+  <label>COOLING PAD</label>
+  <strong id="statPad">—</strong>
+  <small>Tetapan semasa</small>
+ </div>
+ <div class="stat">
+  <label>VAKSIN HARI INI</label>
+  <strong id="statVax">0</strong>
+  <small>Mengikut program dipilih</small>
+ </div>
 </section>
 
 <div class="tabs">
- <button class="tab active" data-tab="table">▦ Jadual Mingguan</button>
+ <button class="tab active" data-tab="table">▦ Fan & Set Point</button>
+ <button class="tab" data-tab="vaccine">💉 Program Vaksin</button>
  <button class="tab" data-tab="stages">🌀 Fan Stage</button>
  <button class="tab" data-tab="notes">📋 Nota</button>
 </div>
 
 <section class="panel" id="page-table">
  <div class="panel-head">
-  <div><h2>Jadual Fan & Set Point</h2><p id="tableSubtitle">Week 1–32</p></div>
+  <div>
+   <h2>Jadual Fan & Set Point</h2>
+   <p>Jadual mingguan rumah dipilih.</p>
+  </div>
   <span class="pill">WEEK 1–32</span>
  </div>
- <div class="searchrow">
-  <input id="search" placeholder="🔎 Cari minggu, tarikh, suhu, kipas..." oninput="renderTable()">
-  <select id="filterSet" onchange="renderTable()">
-   <option value="">Semua set point</option>
-   <option>32</option><option>31</option><option>30</option>
-   <option>29</option><option>28</option><option>27</option>
-   <option>26</option><option>25</option><option>24</option>
-   <option>23</option><option>22</option>
-  </select>
- </div>
+
  <div class="tablewrap">
   <table>
-   <thead><tr>
-    <th>Minggu / Tarikh</th><th>Hari</th><th>Set Point</th>
-    <th>Fan Manual</th><th>Fan Auto</th><th>Cooling Pad</th>
-    <th>Alarm</th><th>Nota</th><th>Edit</th>
-   </tr></thead>
+   <thead>
+    <tr>
+     <th>Minggu / Tarikh</th>
+     <th>Hari</th>
+     <th>Set Point</th>
+     <th>Fan Manual</th>
+     <th>Fan Auto</th>
+     <th>Cooling Pad</th>
+     <th>Alarm</th>
+     <th>Nota</th>
+     <th>Edit</th>
+    </tr>
+   </thead>
    <tbody id="tableBody"></tbody>
   </table>
  </div>
 </section>
 
+<section class="panel hidden" id="page-vaccine">
+ <div class="panel-head">
+  <div>
+   <h2>💉 Jadual Program Vaksinasi</h2>
+   <p id="vaxSubtitle">Program vaksin rumah dipilih.</p>
+  </div>
+  <span class="pill" id="vaxBadge">PROGRAM A</span>
+ </div>
+
+ <div class="vax-highlight">
+  <h3>📍 VAKSIN MENGIKUT UMUR AYAM SEKARANG</h3>
+  <div id="todayVaccines"></div>
+ </div>
+
+ <div class="grid2">
+  <div class="vax-highlight">
+   <h3>⏭️ VAKSIN SETERUSNYA</h3>
+   <div id="nextVaccines"></div>
+  </div>
+  <div class="vax-highlight">
+   <h3>📅 RINGKASAN PROGRAM</h3>
+   <div id="vaxSummary"></div>
+  </div>
+ </div>
+
+ <div class="panel-head" style="margin-top:18px">
+  <div>
+   <h2>Keseluruhan Jadual Vaksin</h2>
+   <p>Disusun mengikut hari dan minggu daripada DOC.</p>
+  </div>
+ </div>
+
+ <div class="vax-filter">
+  <button class="active" onclick="setVaxFilter('all',this)">Semua</button>
+  <button onclick="setVaxFilter('past',this)">Sudah berlalu</button>
+  <button onclick="setVaxFilter('today',this)">Hari ini</button>
+  <button onclick="setVaxFilter('future',this)">Akan datang</button>
+ </div>
+
+ <div id="vaccineList"></div>
+</section>
+
 <section class="panel hidden" id="page-stages">
  <div class="panel-head">
-  <div><h2 id="stageHeading">Fan Stage — Rumah 1</h2><p>Setiap rumah mempunyai pemetaan kipas sendiri.</p></div>
+  <div>
+   <h2 id="stageHeading">Fan Stage</h2>
+   <p>Konfigurasi kipas rumah dipilih.</p>
+  </div>
   <button class="btn primary" onclick="editStages()">Edit Fan Stage</button>
  </div>
- <div class="note">Nombor stage ialah rujukan konfigurasi. Ia tidak menunjukkan status kipas secara langsung. Semak controller untuk mengetahui kipas yang sedang berjalan.</div>
+ <div class="note">Nombor stage ialah rujukan konfigurasi, bukan bacaan langsung controller.</div>
  <div class="grid2" id="stageList"></div>
  <div class="note" id="manualStageNote"></div>
 </section>
 
 <section class="panel hidden" id="page-notes">
- <div class="panel-head"><div><h2>Nota & Panduan</h2><p>Penggunaan sistem empat rumah.</p></div></div>
- <div class="grid2">
-  <div class="stagecard"><strong>📅 Tarikh DOC</strong><span>Berasingan</span></div>
-  <div class="stagecard"><strong>🌡️ Set Point</strong><span>Berasingan</span></div>
-  <div class="stagecard"><strong>🌀 Fan Stage</strong><span>Boleh diedit</span></div>
-  <div class="stagecard"><strong>💾 Simpanan</strong><span>Peranti ini</span></div>
+ <h2>Nota Sistem</h2>
+ <div class="note">
+  1. Setiap rumah mempunyai tarikh DOC dan program vaksin sendiri.<br>
+  2. Program A dan B adalah dua jadual berasingan.<br>
+  3. Sistem mengira umur ayam berdasarkan tarikh DOC.<br>
+  4. Vaksin dipaparkan mengikut Day dan Week daripada jadual asal.<br>
+  5. Data disimpan dalam pelayar peranti ini sahaja.
  </div>
- <div class="note">Data disimpan dalam pelayar peranti ini dan tidak disegerakkan secara automatik dengan telefon atau komputer lain. Eksport CSV sebagai sandaran.</div>
+ <div class="note">
+  Jadual vaksin ialah rekod program yang diberikan. Sahkan kesesuaian vaksin, dos, laluan pemberian dan jadual sebenar dengan doktor veterinar serta SOP ladang sebelum pelaksanaan.
+ </div>
 </section>
 
 <footer>
- CAB GROUP · FAN AND SET POINT SETTING · Sistem rujukan empat rumah.<br>
- Pastikan nilai operasi disahkan dengan SOP ladang dan controller sebenar.
+ CAB GROUP · FARM MANAGEMENT PRO · FAN, SET POINT & VACCINATION
 </footer>
 </div>
 
 <div id="modalRoot"></div>
 
 <script>
-const DATA_KEY="cabFourHousesV1";
-const OLD_DATA_KEY="cabFanSettingsV2";
-const OLD_DATE_KEY="cabDocDateV1";
-const OLD_MODE_KEY="cabWeekModeV1";
+
+/* ==========================================
+   1. JADUAL VAKSIN
+   Format:
+   [DAY, WEEK, NAMA VAKSIN, ROUTE, PROGRAM]
+
+   AB = Digunakan dalam kedua-dua program
+   A  = Program A sahaja
+   B  = Program B sahaja
+
+   Tiada tarikh dan tiada jenama.
+========================================== */
+
+const vaccineData = [
+
+/* VAKSIN B TAMBAHAN AWAL */
+
+[3,"0.3","Coccidiosis (L)","Feed Spray","B"],
+[5,"0.5","IB Variant (L)","Eye Drop","B"],
+[5,"0.5","ND+IB (L)","Eye Drop","B"],
+[7,"0.7","IBD (L)","Drinking Water","B"],
+
+/* PROGRAM A DAN B */
+
+[9,"1.2","Reo (L)","Subcutaneous","AB"],
+
+[13,"1.6","ND+IB (L)","Eye Drop","AB"],
+[13,"1.6","IB Variant (L)","Eye Drop","AB"],
+[13,"1.6","SAL (L)","Mouth Drop","AB"],
+
+[18,"2.4","Pox (L)","Wing Web","AB"],
+[18,"2.4","ND+IB (K)","Subcutaneous","AB"],
+
+[28,"4.0","MG (L)","Eye Drop","AB"],
+[35,"5.0","E.Coli (L)","Drinking Water","AB"],
+[38,"5.3","AMPV (L) SHS","Eye Drop","AB"],
+
+[42,"6.0","IBH-8b Auto (K)","Subcutaneous","AB"],
+[42,"6.0","NDS (L)","Intramuscular","AB"],
+
+[49,"7.0","SAL (L)","Mouth Drop","AB"],
+[49,"7.0","Reo (L)","Subcutaneous","AB"],
+
+[56,"8.0","ILT (L)","Eye Drop","AB"],
+
+[63,"9.0","LPAI H9N2 Auto (K)","Intramuscular","AB"],
+[63,"9.0","AMPV (L) SHS","Eye Drop","AB"],
+
+[70,"10.0","AE + POX (L)","Wing Web","AB"],
+[70,"10.0","CIAV (L)","Wing Web","AB"],
+
+[77,"11.0","Reovirus (K)","Intramuscular","AB"],
+
+[84,"12.0","SAL SE&ST (K)","Intramuscular","AB"],
+
+[105,"15.0","CEVAC Megamune","Intramuscular","AB"],
+[105,"15.0","Coryza (K)","Intramuscular","AB"],
+
+[119,"17.0","E.Coli (L)","Drinking Water","AB"],
+
+[126,"18.0","IBH-8b Auto (K)","Intramuscular","AB"],
+[126,"18.0","NDS (L)","Intramuscular","AB"],
+
+[133,"19.0","SAL SE&ST (K)","Intramuscular","AB"],
+[133,"19.0","MG (K)","Intramuscular","AB"],
+
+[140,"20.0","LPAI H9N2 Auto (K)","Intramuscular","AB"],
+
+[147,"21.0","ND + IB + IBD + Reo (K)","Intramuscular","AB"],
+[147,"21.0","Coryza (K)","Intramuscular","AB"],
+
+/* VAKSIN B TAMBAHAN */
+
+[25,"3.4","IBD (L)","Drinking Water","B"],
+
+/* PROGRAM A DAN B - VAKSIN BERULANG */
+
+[175,"25.0","ND + IB (L)","Drinking Water","AB"],
+[203,"29.0","ND + IB (L)","Drinking Water","AB"],
+[231,"33.0","ND + IB (L)","Drinking Water","AB"],
+[259,"37.0","ND + IB (L)","Drinking Water","AB"],
+[287,"41.0","ND + IB (L)","Drinking Water","AB"],
+[315,"45.0","ND + IB (L)","Drinking Water","AB"],
+[343,"49.0","ND + IB (L)","Drinking Water","AB"],
+[371,"53.0","ND + IB (L)","Drinking Water","AB"],
+[399,"57.0","ND + IB (L)","Drinking Water","AB"],
+[427,"61.0","ND + IB (L)","Drinking Water","AB"],
+[455,"65.0","ND + IB (L)","Drinking Water","AB"],
+[483,"69.0","ND + IB (L)","Drinking Water","AB"]
+
+];
+
+
+/* ==========================================
+   2. FAN & SET POINT DATA
+========================================== */
 
 const template=[
 [1,"0–7",32,"MV ON 120, OFF 300","—","10%","—",""],
@@ -326,6 +477,16 @@ const defaultStages=[
 {name:"STAGE 7",fans:"FAN 1, 9"}
 ];
 
+
+/* ==========================================
+   3. DATA EMPAT RUMAH & STORAGE
+========================================== */
+
+const DATA_KEY="cabFarmManagerProV3";
+const OLD_DATA_KEY="cabFanSettingsV2";
+const OLD_DATE_KEY="cabDocDateV1";
+const OLD_MODE_KEY="cabWeekModeV1";
+
 function makeRows(){
  return template.map(r=>({
   w:r[0],day:r[1],set:r[2],manual:r[3],
@@ -338,6 +499,7 @@ function makeHouse(i){
   name:"Rumah "+i,
   docDate:"",
   mode:"flock",
+  vaccineProgram:"A",
   rows:makeRows(),
   stages:JSON.parse(JSON.stringify(defaultStages)),
   manualFans:"FAN 2 dan 10"
@@ -346,8 +508,10 @@ function makeHouse(i){
 
 function initialHouses(){
  const hs=[1,2,3,4].map(makeHouse);
+
  try{
   const old=JSON.parse(localStorage.getItem(OLD_DATA_KEY)||"null");
+
   if(Array.isArray(old)&&old.length){
    hs[0].rows=old.map(r=>({
     w:r.w,day:r.day||"—",set:r.set,
@@ -355,40 +519,50 @@ function initialHouses(){
     pad:r.pad||"—",alarm:r.alarm||"—",note:r.note||""
    }));
   }
+
   hs[0].docDate=localStorage.getItem(OLD_DATE_KEY)||"";
   hs[0].mode=localStorage.getItem(OLD_MODE_KEY)||"flock";
  }catch(e){}
+
  return hs;
 }
 
 function loadHouses(){
  try{
   const saved=JSON.parse(localStorage.getItem(DATA_KEY)||"null");
+
   if(Array.isArray(saved)&&saved.length===4){
    saved.forEach((h,i)=>{
     if(!Array.isArray(h.rows))h.rows=makeRows();
     if(!Array.isArray(h.stages))h.stages=JSON.parse(JSON.stringify(defaultStages));
     if(!h.name)h.name="Rumah "+(i+1);
     if(!h.mode)h.mode="flock";
-    if(typeof h.manualFans!=="string")h.manualFans="FAN 2 dan 10";
+    if(!h.vaccineProgram)h.vaccineProgram="A";
+    if(!h.manualFans)h.manualFans="FAN 2 dan 10";
    });
    return saved;
   }
  }catch(e){}
+
  const fresh=initialHouses();
- try{localStorage.setItem(DATA_KEY,JSON.stringify(fresh))}catch(e){}
+
+ try{
+  localStorage.setItem(DATA_KEY,JSON.stringify(fresh));
+ }catch(e){}
+
  return fresh;
 }
 
 let houses=loadHouses();
 let selected=0;
+let vaxFilter="all";
 
 function saveAll(){
  try{
   localStorage.setItem(DATA_KEY,JSON.stringify(houses));
   return true;
  }catch(e){
-  alert("Data tidak dapat disimpan. Eksport CSV sebagai sandaran.");
+  alert("Data tidak dapat disimpan. Sila eksport CSV sebagai sandaran.");
   return false;
  }
 }
@@ -401,12 +575,23 @@ function esc(v){
  }[c]));
 }
 
+
+/* ==========================================
+   4. PENGIRAAN UMUR AYAM
+========================================== */
+
 function parseDate(s){
  if(!s)return null;
+
  const a=s.split("-").map(Number);
  if(a.length!==3||a.some(Number.isNaN))return null;
+
  const d=new Date(a[0],a[1]-1,a[2],12);
- if(d.getFullYear()!==a[0]||d.getMonth()!==a[1]-1||d.getDate()!==a[2])return null;
+
+ if(d.getFullYear()!==a[0]||
+    d.getMonth()!==a[1]-1||
+    d.getDate()!==a[2])return null;
+
  return d;
 }
 
@@ -416,29 +601,26 @@ function fmt(d){
  }):"Belum ditetapkan";
 }
 
-/* PENGIRAAN UMUR AYAM */
 function ageInfo(h){
  const start=parseDate(h.docDate);
 
- if(!start){
-  return {valid:false,text:"DOC belum ditetapkan",week:null,day:null};
- }
+ if(!start)return {valid:false,text:"DOC belum ditetapkan"};
 
  const now=new Date();
  now.setHours(12,0,0,0);
 
- const days=Math.floor((now.getTime()-start.getTime())/86400000);
+ const days=Math.floor((now-start)/86400000);
 
- if(days<0){
-  return {valid:false,text:"DOC belum tiba",week:0,day:days};
- }
+ if(days<0)return {
+  valid:false,text:"DOC belum tiba",totalDays:days
+ };
 
  return {
   valid:true,
+  totalDays:days,
+  dayNumber:days+1,
   week:Math.floor(days/7)+1,
-  day:days,
-  dayInWeek:days%7,
-  totalDays:days
+  dayInWeek:days%7
  };
 }
 
@@ -447,10 +629,14 @@ function weekDateFor(h,w){
  if(!start)return null;
 
  let offset=(w-1)*7;
- if(h.mode==="calendar")offset+=(7-start.getDay())%7;
+
+ if(h.mode==="calendar"){
+  offset+=(7-start.getDay())%7;
+ }
 
  const d=new Date(start);
  d.setDate(d.getDate()+offset);
+
  return d;
 }
 
@@ -459,85 +645,216 @@ function rowForWeek(h,w){
  return h.rows.find(r=>r.w===Math.min(w,32))||null;
 }
 
-function currentFanSummary(h,w){
- const r=rowForWeek(h,w);
- if(!r)return "Belum ditetapkan";
- return "Manual: "+(r.manual||"—")+" · Auto: "+(r.auto||"—");
+
+/* ==========================================
+   5. SISTEM VAKSIN
+========================================== */
+
+function getVaccines(h){
+ return vaccineData
+  .filter(v=>
+   v[4]==="AB"||v[4]===h.vaccineProgram
+  )
+  .map(v=>({
+   day:v[0],
+   week:v[1],
+   name:v[2],
+   route:v[3]
+  }))
+  .sort((a,b)=>a.day-b.day);
 }
 
-/* KEMAS KINI UMUR DI BAWAH TARIKH DOC */
-function renderCurrentAge(){
+function vaccinesForDay(h,day){
+ return getVaccines(h).filter(v=>v.day===day);
+}
+
+function nextVaccineDay(h,day){
+ return getVaccines(h).find(v=>v.day>day);
+}
+
+function vaccineStatus(v,day){
+ if(v.day===day)return "today";
+ return v.day<day?"past":"future";
+}
+
+function vaxCard(v,status){
+ const cls=status==="today"?"today":
+  status==="past"?"past":"upcoming";
+
+ const label=status==="today"?"HARI INI":
+  status==="past"?"SUDAH BERLALU":"AKAN DATANG";
+
+ return `
+ <div class="vax-item ${cls}">
+  <div class="vax-status">
+   ${label} · DAY ${v.day} · WEEK ${v.week}
+  </div>
+  <h4>${esc(v.name)}</h4>
+  <p><b>Route:</b> ${esc(v.route)}</p>
+ </div>
+ `;
+}
+
+function renderVaccine(){
  const h=house();
  const age=ageInfo(h);
- const ageElement=document.getElementById("currentAge");
- const detailElement=document.getElementById("currentAgeDetail");
+ const list=getVaccines(h);
+
+ document.getElementById("vaxBadge").textContent=
+  "PROGRAM "+h.vaccineProgram;
+
+ document.getElementById("vaxSubtitle").textContent=
+  h.name+" · Program "+h.vaccineProgram;
+
+ const today=document.getElementById("todayVaccines");
+ const next=document.getElementById("nextVaccines");
+ const summary=document.getElementById("vaxSummary");
 
  if(!age.valid){
-  ageElement.textContent=age.text;
-  detailElement.textContent=age.text==="DOC belum tiba"
-   ?"Tarikh DOC berada pada masa hadapan."
-   :"Masukkan tarikh DOC untuk mengira umur ayam.";
+  today.innerHTML="<p>Masukkan tarikh DOC untuk melihat vaksin mengikut umur.</p>";
+  next.innerHTML="<p>Umur ayam belum tersedia.</p>";
+  summary.innerHTML="<p>"+esc(age.text)+"</p>";
+  document.getElementById("vaccineList").innerHTML="";
   return;
  }
 
- const weeks=Math.floor(age.totalDays/7);
- const days=age.totalDays%7;
+ const day=age.dayNumber;
+ const due=vaccinesForDay(h,day);
+ const upcoming=nextVaccineDay(h,day);
 
- ageElement.textContent=weeks+" minggu "+days+" hari";
- detailElement.textContent=
-  "Hari ke-"+age.totalDays+" sejak DOC masuk · Minggu rekod: "+age.week;
+ today.innerHTML=due.length
+  ?due.map(v=>vaxCard(v,"today")).join("")
+  :`<p>Tiada vaksin dijadualkan tepat pada Day ${day} (Week ${age.week}).</p>`;
+
+ next.innerHTML=upcoming
+  ?vaxCard(upcoming,"future")
+  :"<p>Tiada rekod vaksin akan datang dalam jadual.</p>";
+
+ const completed=list.filter(v=>v.day<day).length;
+ const remaining=list.filter(v=>v.day>=day).length;
+
+ summary.innerHTML=`
+  <p><b>Program:</b> ${h.vaccineProgram}</p>
+  <p><b>Jumlah rekod:</b> ${list.length}</p>
+  <p><b>Rekod berlalu:</b> ${completed}</p>
+  <p><b>Rekod belum tiba:</b> ${remaining}</p>
+  <p><b>Umur:</b> Day ${day} / Week ${age.week}</p>
+ `;
+
+ renderVaccineList();
 }
 
+function setVaxFilter(value,button){
+ vaxFilter=value;
+
+ document.querySelectorAll(".vax-filter button")
+  .forEach(b=>b.classList.remove("active"));
+
+ button.classList.add("active");
+ renderVaccineList();
+}
+
+function renderVaccineList(){
+ const h=house();
+ const age=ageInfo(h);
+
+ if(!age.valid){
+  document.getElementById("vaccineList").innerHTML="";
+  return;
+ }
+
+ const day=age.dayNumber;
+
+ const list=getVaccines(h).filter(v=>{
+  const status=vaccineStatus(v,day);
+
+  return vaxFilter==="all"||
+   (vaxFilter==="past"&&status==="past")||
+   (vaxFilter==="today"&&status==="today")||
+   (vaxFilter==="future"&&status==="future");
+ });
+
+ document.getElementById("vaccineList").innerHTML=list.length
+  ?list.map(v=>vaxCard(v,vaccineStatus(v,day))).join("")
+  :'<p class="hint">Tiada rekod untuk pilihan ini.</p>';
+}
+
+
+/* ==========================================
+   6. DASHBOARD EMPAT RUMAH
+========================================== */
+
 function renderHouses(){
- document.getElementById("housePicker").innerHTML=houses.map((h,i)=>{
-  const age=ageInfo(h);
-  return `<button class="house-btn ${i===selected?"active":""}" onclick="selectHouse(${i})">
+ document.getElementById("housePicker").innerHTML=
+ houses.map((h,i)=>{
+  const a=ageInfo(h);
+
+  return `
+  <button class="house-btn ${i===selected?"active":""}" onclick="selectHouse(${i})">
    <strong>🏠 ${esc(h.name)}</strong>
-   <span>${h.docDate?"DOC: "+esc(fmt(parseDate(h.docDate))):"Tarikh DOC belum ditetapkan"}<br>
-   ${age.valid?"Umur: Minggu "+age.week:"Umur belum tersedia"}</span>
+   <span>
+    ${h.docDate?"DOC: "+fmt(parseDate(h.docDate)):"DOC belum ditetapkan"}<br>
+    ${a.valid?"Umur: "+a.week+" minggu":"Umur belum tersedia"}<br>
+    Program vaksin: ${h.vaccineProgram}
+   </span>
   </button>`;
  }).join("");
 }
 
 function selectHouse(i){
  selected=i;
+ vaxFilter="all";
  renderAll();
 }
 
 function renderDashboard(){
- document.getElementById("dashboardCards").innerHTML=houses.map((h,i)=>{
-  const age=ageInfo(h);
-  const row=age.valid?rowForWeek(h,age.week):null;
-  const ageText=age.valid
-   ?Math.floor(age.totalDays/7)+" minggu "+(age.totalDays%7)+" hari"
-   :age.text;
+ document.getElementById("dashboardCards").innerHTML=
+ houses.map((h,i)=>{
+  const a=ageInfo(h);
+  const r=a.valid?rowForWeek(h,a.week):null;
 
-  const set=row?row.set+"°C":"—";
-  const pad=row?row.pad:"—";
-  const manual=row?row.manual:"—";
-  const auto=row?row.auto:"—";
+  const age=a.valid
+   ?Math.floor(a.totalDays/7)+" minggu "+a.totalDays%7+" hari"
+   :a.text;
 
-  return `<article class="dash-card ${i===selected?"selected":""}">
-   <div class="dash-top">
-    <div>
-     <h3>${esc(h.name)}</h3>
-     <p>${h.docDate?"DOC: "+esc(fmt(parseDate(h.docDate))):"Tarikh DOC belum diisi"}</p>
-    </div>
-    <div class="house-icon">🏠</div>
-   </div>
-   <div class="age-box">
+  const vaccines=a.valid
+   ?vaccinesForDay(h,a.dayNumber):[];
+
+  return `
+  <article class="dash-card ${i===selected?"selected":""}">
+   <h3>🏠 ${esc(h.name)}</h3>
+   <p>${h.docDate?"DOC: "+fmt(parseDate(h.docDate)):"Tarikh DOC belum diisi"}</p>
+
+   <div class="dash-age">
     <small>UMUR AYAM SEKARANG</small>
-    <strong>${esc(ageText)}</strong>
-    <span>${age.valid?"Minggu rekod: "+age.week+" · Hari ke-"+age.totalDays:"Masukkan tarikh DOC untuk kira umur"}</span>
+    <strong>${esc(age)}</strong>
+    <span>${a.valid?"Day "+a.dayNumber+" · Week "+a.week:"Masukkan tarikh DOC"}</span>
    </div>
-   <div class="dash-metrics">
-    <div class="metric"><small>SET POINT</small><strong>${esc(set)}</strong></div>
-    <div class="metric"><small>COOLING PAD</small><strong>${esc(pad)}</strong></div>
-    <div class="metric"><small>FAN MANUAL</small><strong>${esc(age.valid?manual:"—")}</strong></div>
-    <div class="metric"><small>FAN AUTO</small><strong>${esc(age.valid?auto:"—")}</strong></div>
+
+   <div class="metrics">
+    <div class="metric">
+     <small>SET POINT</small>
+     <strong>${r?r.set+"°C":"—"}</strong>
+    </div>
+    <div class="metric">
+     <small>COOLING PAD</small>
+     <strong>${r?esc(r.pad):"—"}</strong>
+    </div>
+    <div class="metric">
+     <small>PROGRAM VAKSIN</small>
+     <strong>Program ${h.vaccineProgram}</strong>
+    </div>
+    <div class="metric">
+     <small>VAKSIN HARI INI</small>
+     <strong>${vaccines.length} rekod</strong>
+    </div>
    </div>
-   <div class="hint"><b>Fan Stage:</b> ${h.stages.length} rekod konfigurasi</div>
-   <button class="btn ${i===selected?"primary":"secondary"}" onclick="openHouse(${i})">${i===selected?"Rumah Dipilih ✓":"Buka Rumah →"}</button>
+
+   <button class="btn ${i===selected?"primary":"secondary"}"
+    style="width:100%;margin-top:12px"
+    onclick="openHouse(${i})">
+    ${i===selected?"Rumah Dipilih ✓":"Buka Rumah →"}
+   </button>
   </article>`;
  }).join("");
 }
@@ -545,42 +862,66 @@ function renderDashboard(){
 function openHouse(i){
  selected=i;
  renderAll();
- document.getElementById("houseSettings").scrollIntoView({behavior:"smooth",block:"start"});
+
+ document.getElementById("houseSettings")
+  .scrollIntoView({behavior:"smooth"});
 }
+
+
+/* ==========================================
+   7. TETAPAN RUMAH
+========================================== */
 
 function renderSettings(){
  const h=house();
+
  document.getElementById("houseHeading").textContent=h.name;
  document.getElementById("houseBadge").textContent=h.name.toUpperCase();
  document.getElementById("houseName").value=h.name;
  document.getElementById("docDate").value=h.docDate||"";
- document.getElementById("weekMode").value=h.mode||"flock";
+ document.getElementById("weekMode").value=h.mode;
+ document.getElementById("vaccineProgram").value=h.vaccineProgram;
 
  document.getElementById("datePreview").textContent=h.docDate
   ?"Week 1: "+fmt(weekDateFor(h,1))+
-   " • Week 2: "+fmt(weekDateFor(h,2))+
-   " • Week 32: "+fmt(weekDateFor(h,32))
-  :"Belum ada tarikh DOC. Masukkan tarikh untuk mengaktifkan kalendar rumah ini.";
-
- document.getElementById("tableSubtitle").textContent=h.docDate
-  ?"Tarikh dikira daripada DOC "+fmt(parseDate(h.docDate))
-  :"Sila tetapkan tarikh DOC untuk "+h.name+".";
+   " · Week 2: "+fmt(weekDateFor(h,2))+
+   " · Week 32: "+fmt(weekDateFor(h,32))
+  :"Belum ada tarikh DOC.";
 
  renderCurrentAge();
 }
 
+function renderCurrentAge(){
+ const a=ageInfo(house());
+ const el=document.getElementById("currentAge");
+ const detail=document.getElementById("currentAgeDetail");
+
+ if(!a.valid){
+  el.textContent=a.text;
+  detail.textContent="Masukkan tarikh DOC yang betul.";
+  return;
+ }
+
+ el.textContent=
+  Math.floor(a.totalDays/7)+" minggu "+a.totalDays%7+" hari";
+
+ detail.textContent=
+  "Day "+a.dayNumber+" sejak DOC masuk · Minggu rekod "+a.week;
+}
+
 function saveHouseSettings(){
  const h=house();
+
  const name=document.getElementById("houseName").value.trim();
  const date=document.getElementById("docDate").value;
- const mode=document.getElementById("weekMode").value;
 
  if(!name)return alert("Sila masukkan nama rumah.");
  if(date&&!parseDate(date))return alert("Tarikh DOC tidak sah.");
 
  h.name=name;
  h.docDate=date;
- h.mode=mode;
+ h.mode=document.getElementById("weekMode").value;
+ h.vaccineProgram=document.getElementById("vaccineProgram").value;
 
  if(saveAll()){
   renderAll();
@@ -590,69 +931,81 @@ function saveHouseSettings(){
 
 function renderStats(){
  const h=house();
- const age=ageInfo(h);
- const row=age.valid?rowForWeek(h,age.week):null;
+ const a=ageInfo(h);
+ const r=a.valid?rowForWeek(h,a.week):null;
 
- document.getElementById("statWeek").textContent=age.valid?"W"+age.week:"—";
- document.getElementById("statSet").textContent=row?row.set+"°C":"—";
- document.getElementById("statPad").textContent=row?row.pad:"—";
- document.getElementById("statAlarm").textContent=
-  h.rows.filter(r=>r.alarm&&r.alarm!=="—").length;
+ document.getElementById("statWeek").textContent=
+  a.valid?"W"+a.week:"—";
+
+ document.getElementById("statSet").textContent=
+  r?r.set+"°C":"—";
+
+ document.getElementById("statPad").textContent=
+  r?r.pad:"—";
+
+ document.getElementById("statVax").textContent=
+  a.valid?vaccinesForDay(h,a.dayNumber).length:"—";
 }
+
+
+/* ==========================================
+   8. JADUAL FAN
+========================================== */
 
 function renderTable(){
  const h=house();
- const q=document.getElementById("search").value.toLowerCase().trim();
- const fs=document.getElementById("filterSet").value;
 
- const filtered=h.rows.filter(r=>{
-  const str=[
-   r.w,fmt(weekDateFor(h,r.w)),r.day,r.set,r.manual,
-   r.auto,r.pad,r.alarm,r.note
-  ].join(" ").toLowerCase();
-  return str.includes(q)&&(!fs||String(r.set)===fs);
- });
-
- document.getElementById("tableBody").innerHTML=filtered.length
- ?filtered.map(r=>`
-  <tr>
-   <td><b style="color:var(--green)">W${r.w}</b><br><small>${esc(fmt(weekDateFor(h,r.w)))}</small></td>
-   <td>${esc(r.day)}</td>
-   <td><span class="pill">${esc(r.set)}°C</span></td>
-   <td>${esc(r.manual)}</td><td>${esc(r.auto)}</td><td>${esc(r.pad)}</td>
-   <td>${r.alarm==="—"?"—":`<span class="pill warn">${esc(r.alarm)}</span>`}</td>
-   <td>${esc(r.note||"—")}</td>
-   <td><button class="mini" onclick="editWeek(${r.w})">Edit</button></td>
-  </tr>`).join("")
- :`<tr><td colspan="9" style="padding:25px;text-align:center">Tiada rekod ditemui.</td></tr>`;
+ document.getElementById("tableBody").innerHTML=
+ h.rows.map(r=>`
+ <tr>
+  <td>
+   <b style="color:var(--green)">W${r.w}</b><br>
+   <small>${fmt(weekDateFor(h,r.w))}</small>
+  </td>
+  <td>${esc(r.day)}</td>
+  <td><span class="pill">${esc(r.set)}°C</span></td>
+  <td>${esc(r.manual)}</td>
+  <td>${esc(r.auto)}</td>
+  <td>${esc(r.pad)}</td>
+  <td>${esc(r.alarm)}</td>
+  <td>${esc(r.note||"—")}</td>
+  <td><button class="btn secondary" onclick="editWeek(${r.w})">Edit</button></td>
+ </tr>`).join("");
 }
+
+
+/* ==========================================
+   9. FAN STAGE
+========================================== */
 
 function renderStages(){
  const h=house();
- document.getElementById("stageHeading").textContent="Fan Stage — "+h.name;
- document.getElementById("stageList").innerHTML=h.stages.map((s,i)=>`
+
+ document.getElementById("stageHeading").textContent=
+  "Fan Stage — "+h.name;
+
+ document.getElementById("stageList").innerHTML=
+ h.stages.map(s=>`
   <div class="stagecard">
-   <strong>${esc(s.name||"STAGE "+(i+1))}</strong>
-   <span>${esc(s.fans||"Belum ditetapkan")}</span>
+   <strong>${esc(s.name)}</strong>
+   <span>${esc(s.fans)}</span>
   </div>`).join("");
 
  document.getElementById("manualStageNote").textContent=
-  "Rujukan kipas manual: "+(h.manualFans||"Belum ditetapkan")+".";
+  "Fan Manual: "+h.manualFans;
 }
 
-function renderAll(){
- renderHouses();
- renderDashboard();
- renderSettings();
- renderStats();
- renderTable();
- renderStages();
-}
+
+/* ==========================================
+   10. TAB NAVIGATION
+========================================== */
 
 function showTab(tab){
- ["table","stages","notes"].forEach(p=>{
-  document.getElementById("page-"+p).classList.toggle("hidden",p!==tab);
+ ["table","vaccine","stages","notes"].forEach(p=>{
+  document.getElementById("page-"+p)
+   .classList.toggle("hidden",p!==tab);
  });
+
  document.querySelectorAll("[data-tab]").forEach(b=>{
   b.classList.toggle("active",b.dataset.tab===tab);
  });
@@ -662,39 +1015,90 @@ document.querySelectorAll("[data-tab]").forEach(b=>{
  b.addEventListener("click",()=>showTab(b.dataset.tab));
 });
 
-/* UMUR DIKEMAS KINI SERTA-MERTA APABILA TARIKH DITUKAR */
-document.getElementById("docDate").addEventListener("change",function(){
- const original=house().docDate;
- house().docDate=this.value;
- renderCurrentAge();
- house().docDate=original;
+
+/* ==========================================
+   11. LIVE UPDATE TARIKH DOC
+========================================== */
+
+document.getElementById("docDate")
+ .addEventListener("change",function(){
+  const original=house().docDate;
+
+  house().docDate=this.value;
+  renderCurrentAge();
+
+  house().docDate=original;
 });
+
+
+/* ==========================================
+   12. EDIT FAN & SET POINT
+========================================== */
 
 function editWeek(w){
  const h=house();
+
  const r=w?h.rows.find(x=>x.w===w):{
-  w:1,day:"—",set:28,manual:"—",auto:"—",pad:"—",alarm:"—",note:""
+  w:1,day:"—",set:28,
+  manual:"—",auto:"—",pad:"—",
+  alarm:"—",note:""
  };
 
  document.getElementById("modalRoot").innerHTML=`
- <div style="position:fixed;inset:0;background:#07140fc9;z-index:10;display:grid;place-items:center;padding:12px">
-  <div style="background:white;border-radius:18px;padding:20px;width:100%;max-width:560px;max-height:90vh;overflow:auto">
-   <h2 style="font-size:18px">Edit ${esc(h.name)} — Week ${w||"baharu"}</h2>
-   <p style="font-size:12px;color:#77857c">Tarikh minggu: ${esc(fmt(weekDateFor(h,r.w)))}</p>
+ <div class="modal">
+  <div class="modal-box">
+   <h2>Edit ${esc(h.name)} — Week ${w||"baharu"}</h2>
+
    <form id="weekForm" onsubmit="saveWeek(event)">
-    <div class="fields" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-     <div class="field"><label>Minggu (1–32)</label><input name="w" type="number" min="1" max="32" required value="${r.w}" ${w?"readonly":""}></div>
-     <div class="field"><label>Hari / Julat Hari</label><input name="day" value="${esc(r.day)}"></div>
-     <div class="field"><label>Set Point °C</label><input name="set" type="number" step=".5" required value="${esc(r.set)}"></div>
-     <div class="field"><label>Fan Manual</label><input name="manual" value="${esc(r.manual)}"></div>
-     <div class="field"><label>Fan Auto</label><input name="auto" value="${esc(r.auto)}"></div>
-     <div class="field"><label>Cooling Pad</label><input name="pad" value="${esc(r.pad)}"></div>
-     <div class="field"><label>Alarm</label><input name="alarm" value="${esc(r.alarm)}"></div>
-     <div class="field"><label>Nota</label><input name="note" value="${esc(r.note)}"></div>
+    <div class="fields" style="grid-template-columns:1fr 1fr">
+
+     <div class="field">
+      <label>Minggu</label>
+      <input name="w" type="number" min="1" max="32"
+       required value="${r.w}" ${w?"readonly":""}>
+     </div>
+
+     <div class="field">
+      <label>Hari / Julat</label>
+      <input name="day" value="${esc(r.day)}">
+     </div>
+
+     <div class="field">
+      <label>Set Point</label>
+      <input name="set" type="number" step=".5"
+       required value="${r.set}">
+     </div>
+
+     <div class="field">
+      <label>Fan Manual</label>
+      <input name="manual" value="${esc(r.manual)}">
+     </div>
+
+     <div class="field">
+      <label>Fan Auto</label>
+      <input name="auto" value="${esc(r.auto)}">
+     </div>
+
+     <div class="field">
+      <label>Cooling Pad</label>
+      <input name="pad" value="${esc(r.pad)}">
+     </div>
+
+     <div class="field">
+      <label>Alarm</label>
+      <input name="alarm" value="${esc(r.alarm)}">
+     </div>
+
+     <div class="field">
+      <label>Nota</label>
+      <input name="note" value="${esc(r.note)}">
+     </div>
+
     </div>
-    <div class="actions" style="margin-top:16px">
+
+    <div class="actions" style="margin-top:15px">
      <button type="button" class="btn" onclick="closeModal()">Batal</button>
-     <button class="btn primary">Simpan Rekod</button>
+     <button class="btn primary">Simpan</button>
     </div>
    </form>
   </div>
@@ -703,69 +1107,98 @@ function editWeek(w){
 
 function saveWeek(e){
  e.preventDefault();
+
  const f=new FormData(e.target);
  const h=house();
  const w=Number(f.get("w"));
 
- if(w<1||w>32)return alert("Minggu mesti antara 1 hingga 32.");
+ if(w<1||w>32)return alert("Minggu mesti 1 hingga 32.");
 
  const r={
-  w,day:f.get("day").trim()||"—",
+  w,
+  day:f.get("day")||"—",
   set:Number(f.get("set")),
-  manual:f.get("manual").trim()||"—",
-  auto:f.get("auto").trim()||"—",
-  pad:f.get("pad").trim()||"—",
-  alarm:f.get("alarm").trim()||"—",
-  note:f.get("note").trim()
+  manual:f.get("manual")||"—",
+  auto:f.get("auto")||"—",
+  pad:f.get("pad")||"—",
+  alarm:f.get("alarm")||"—",
+  note:f.get("note")||""
  };
 
  const i=h.rows.findIndex(x=>x.w===w);
+
  if(i>=0)h.rows[i]=r;
  else h.rows.push(r);
 
  h.rows.sort((a,b)=>a.w-b.w);
- if(saveAll()){closeModal();renderAll();}
+
+ if(saveAll()){
+  closeModal();
+  renderAll();
+ }
 }
+
+
+/* ==========================================
+   13. EDIT FAN STAGE
+========================================== */
 
 function editStages(){
  const h=house();
- let html=`<div style="position:fixed;inset:0;background:#07140fc9;z-index:10;display:grid;place-items:center;padding:12px">
- <div style="background:white;border-radius:18px;padding:20px;width:100%;max-width:560px;max-height:90vh;overflow:auto">
- <h2 style="font-size:18px">Fan Stage — ${esc(h.name)}</h2>
- <p style="font-size:12px;color:#77857c">Masukkan nombor kipas mengikut konfigurasi rumah ini.</p>
- <form id="stageForm" onsubmit="saveStages(event)">
- <div class="fields" style="grid-template-columns:repeat(2,minmax(0,1fr))">`;
+
+ let html=`
+ <div class="modal">
+  <div class="modal-box">
+   <h2>Fan Stage — ${esc(h.name)}</h2>
+
+   <form id="stageForm" onsubmit="saveStages(event)">
+    <div class="fields" style="grid-template-columns:1fr 1fr">
+ `;
 
  h.stages.forEach((s,i)=>{
-  html+=`<div class="field"><label>Stage ${i+1} — kipas</label>
-  <input name="stage${i}" value="${esc(s.fans)}"></div>`;
+  html+=`
+   <div class="field">
+    <label>Stage ${i+1}</label>
+    <input name="stage${i}" value="${esc(s.fans)}">
+   </div>
+  `;
  });
 
- html+=`<div class="field" style="grid-column:1/-1">
- <label>Fan Manual</label>
- <input name="manualFans" value="${esc(h.manualFans)}"></div></div>
- <div class="actions" style="margin-top:16px">
- <button type="button" class="btn" onclick="closeModal()">Batal</button>
- <button class="btn primary">Simpan Fan Stage</button>
- </div></form></div></div>`;
+ html+=`
+   <div class="field" style="grid-column:1/-1">
+    <label>Fan Manual</label>
+    <input name="manualFans" value="${esc(h.manualFans)}">
+   </div>
+   </div>
+
+   <div class="actions" style="margin-top:15px">
+    <button type="button" class="btn" onclick="closeModal()">Batal</button>
+    <button class="btn primary">Simpan</button>
+   </div>
+   </form>
+  </div>
+ </div>`;
 
  document.getElementById("modalRoot").innerHTML=html;
 }
 
 function saveStages(e){
  e.preventDefault();
+
  const f=new FormData(e.target);
  const h=house();
 
  h.stages=h.stages.map((s,i)=>({
-  ...s,fans:f.get("stage"+i).trim()||"Belum ditetapkan"
+  ...s,
+  fans:f.get("stage"+i)||"—"
  }));
- h.manualFans=f.get("manualFans").trim()||"Belum ditetapkan";
+
+ h.manualFans=f.get("manualFans")||"—";
 
  if(saveAll()){
   closeModal();
   renderAll();
-  alert("Fan Stage untuk "+h.name+" berjaya disimpan.");
+  alert("Fan Stage berjaya disimpan.");
  }
 }
 
@@ -773,42 +1206,83 @@ function closeModal(){
  document.getElementById("modalRoot").innerHTML="";
 }
 
+
+/* ==========================================
+   14. EKSPORT CSV
+========================================== */
+
 function exportCSV(){
  const h=house();
+ const age=ageInfo(h);
+
  const rows=[
+  ["CAB FARM MANAGEMENT"],
   ["Rumah",h.name],
-  ["Tarikh DOC",h.docDate||"Belum ditetapkan"],
-  ["Umur semasa",ageInfo(h).valid
-   ?Math.floor(ageInfo(h).totalDays/7)+" minggu "+(ageInfo(h).totalDays%7)+" hari"
-   :"Belum tersedia"],
-  ["Minggu","Tarikh","Hari","Set Point","Fan Manual","Fan Auto","Cooling Pad","Alarm","Nota"],
+  ["Tarikh DOC",h.docDate],
+  ["Program Vaksin",h.vaccineProgram],
+  ["Umur Semasa",age.valid?"Day "+age.dayNumber:"Belum ditetapkan"],
+  [],
+  ["JADUAL FAN & SET POINT"],
+  ["MINGGU","TARIKH","HARI","SET POINT",
+   "FAN MANUAL","FAN AUTO","COOLING PAD","ALARM","NOTA"],
+
   ...h.rows.map(r=>[
    r.w,fmt(weekDateFor(h,r.w)),r.day,r.set,
    r.manual,r.auto,r.pad,r.alarm,r.note
+  ]),
+
+  [],
+  ["JADUAL VAKSIN"],
+  ["DAY","WEEK","VAKSIN","ROUTE"],
+
+  ...getVaccines(h).map(v=>[
+   v.day,v.week,v.name,v.route
   ])
  ];
 
- const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
- const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
+ const csv=rows.map(row=>
+  row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")
+ ).join("\r\n");
+
+ const blob=new Blob(["\uFEFF"+csv],{
+  type:"text/csv;charset=utf-8"
+ });
+
  const url=URL.createObjectURL(blob);
  const a=document.createElement("a");
+
  a.href=url;
- a.download=h.name.replace(/[^a-z0-9]/gi,"_")+"_Fan_Set_Point.csv";
+ a.download=h.name.replace(/[^a-z0-9]/gi,"_")+"_CAB_Management.csv";
  a.click();
+
  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
+
+/* ==========================================
+   15. PAPAR SEMUA
+========================================== */
+
+function renderAll(){
+ renderHouses();
+ renderDashboard();
+ renderSettings();
+ renderStats();
+ renderTable();
+ renderStages();
+ renderVaccine();
+}
+
 renderAll();
+
 </script>
- 
+
 <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .catch(error => console.error(
-        "Service worker gagal didaftarkan:", error
-      ));
-  });
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./service-worker.js")
+   .catch(e=>console.log("Service worker:",e));
+ });
 }
 </script>
 
